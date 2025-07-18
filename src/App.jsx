@@ -4,7 +4,10 @@ import './App.css'
 function App() {
 
   return (
-    <><h1>Hello World!</h1> </>
+    <> 
+      <h1>Heading 1!</h1>
+      <button className='btn-attention'>attention</button>
+    </>
   )
 }
 
