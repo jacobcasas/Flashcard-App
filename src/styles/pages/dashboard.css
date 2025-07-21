@@ -1,3 +1,27 @@
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-5);
+    position: relative;
+    overflow: visible;
+}
+
+.hero-section::before {
+    content: '';
+    background-image: url(../../assets/Background.svg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    width: 100vw;
+    height: 130%;
+    margin-left: -2rem;
+    margin-top: -4rem;
+}
+
 .indexed {
     text-align: center;
 }
@@ -5,4 +29,75 @@
 .username {
     font-size: 2.986rem;
     line-height: 1;
+}
+
+/* Week Tracker */
+
+.weekly-tracker-container {
+    display: flex;
+    width: 300px;
+    max-width: 300px;
+    justify-content: space-between;
+    margin: 0 auto 1rem;
+}
+
+.day-and-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.marker {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--color-gray-50);
+    border-radius: var(--border-radius-lg);
+}
+
+.mkr-1 {
+    background-color: var(--color-gray-400);
+    border: none;
+}
+
+.mkr-2 {
+    background-color: var(--color-success);
+    border: none;
+    position: relative;
+}
+
+.marker.mkr-2::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 5px;
+    border-left: 2px solid var(--color-gray-50);
+    border-bottom: 2px solid var(--color-gray-50);
+    transform: translate(-50%, -50%) rotate(-45deg);
+    z-index: 2;
+}
+
+.streak-msg {
+    text-align: center;
+}
+
+/* goal info deck */
+.goal-info-deck {
+    display: flex;
+    background-color: var(--color-gray-800);
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius-lg);
+    margin: 0 1rem;
+    height: fit-content;
+    box-shadow: 0 5px 8px rgba(14, 14, 14, 0.3);
+}
+
+.goal-category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-half);
 }

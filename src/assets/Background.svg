@@ -13,7 +13,7 @@
 <feTurbulence type="fractalNoise" baseFrequency="10 10" stitchTiles="stitch" numOctaves="3" result="noise" seed="2432" />
 <feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
 <feComponentTransfer in="alphaNoise" result="coloredNoise1">
-<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+    <feFuncA type="linear" slope="40" intercept="-1" />
 </feComponentTransfer>
 <feComposite operator="in" in2="effect1_foregroundBlur_13_70" in="coloredNoise1" result="noise1Clipped" />
 <feFlood flood-color="rgba(0, 0, 0, 0.25)" result="color1Flood" />
@@ -23,14 +23,14 @@
 <feMergeNode in="color1" />
 </feMerge>
 </filter>
-<linearGradient id="paint0_linear_13_70" x1="212.48" y1="-0.61824" x2="212.48" y2="450" gradientUnits="userSpaceOnUse">
-<stop offset="0.447015" stop-color="#586994"/>
-<stop offset="0.447115" stop-color="#586994"/>
-<stop offset="1" stop-color="#586994" stop-opacity="0"/>
+<linearGradient id="paint0_linear_13_70" x1="212.48" y1="0" x2="212.48" y2="450" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#586994"/>
+<stop offset="65%" stop-color="#586994"/>
+<stop offset="83%" stop-color="#586994" stop-opacity="0"/>
 </linearGradient>
 <radialGradient id="paint1_radial_13_70" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(39.3107 229.951) rotate(90) scale(169.201 135.311)">
-<stop offset="0.567308" stop-color="#4281A4"/>
-<stop offset="1" stop-color="#4281A4" stop-opacity="0"/>
+<stop offset="0" stop-color="#4281A4"/>
+<stop offset="80%" stop-color="#4281A4" stop-opacity="0"/>
 </radialGradient>
 <radialGradient id="paint2_radial_13_70" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(283.719 83.0309) rotate(57.4291) scale(175.19 248.707)">
 <stop offset="0.442308" stop-color="#75765C"/>
