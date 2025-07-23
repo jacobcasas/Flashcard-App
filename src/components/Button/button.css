@@ -9,6 +9,19 @@ button {
   box-shadow: 0 4px rgb(0, 0, 0);
 }
 
+.btn-add {
+  background-color: transparent;
+  border: 2px solid var(--color-gray-200);
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.btn-append {
+  background-color: var(--color-success);
+  margin: .3rem 0;
+}
+
 .btn-attention {
   background-color: var(--color-attention);
 }
