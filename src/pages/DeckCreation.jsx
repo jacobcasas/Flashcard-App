@@ -10,3 +10,5 @@ function DeckCreation () {
         </>
     )
 }
+
+export default DeckCreation

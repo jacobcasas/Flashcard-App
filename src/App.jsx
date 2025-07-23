@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import Dashboard from './pages/Dashboard'
-import './App.css'
+import Dashboard from './pages/Dashboard';
+import DeckCreation from './pages/DeckCreation';
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
-
   return (
-    <> 
-      <Dashboard />
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Dashboard />}></Route>
+      <Route path="/deckcreation" element={<DeckCreation />}></Route>
+    </Routes>
+  );
 }
 
 export default App
