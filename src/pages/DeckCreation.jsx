@@ -37,7 +37,7 @@ function DeckCreation () {
                             <label htmlFor="category-list">Create a new category</label>
                             <div className="cc-input-and-button">
                                 <input id='name-category' name='category-list' type="text" placeholder='i.e. "Language"' onChange={toggleDisabled}/>
-                                <Button label="Add" type="append" onclick={(e) => appendNewCategory(e)} disabled={isDisabled}/>
+                                <Button label="➔" type="append" onclick={(e) => appendNewCategory(e)} disabled={isDisabled}/>
                             </div>
                         </div>
                     </div>

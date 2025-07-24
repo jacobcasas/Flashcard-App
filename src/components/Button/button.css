@@ -19,11 +19,13 @@ button {
 
 .btn-append {
   background-color: var(--color-success);
-  margin: .3rem 0;
+  margin: .4rem 0;
+  border-radius: var(--border-radius-xl);
 }
 
 .btn-append:disabled {
   background-color: var(--color-gray-600);
+  color: var(--color-gray-900);
 }
 
 .btn-attention {
