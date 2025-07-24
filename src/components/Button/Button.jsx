@@ -1,9 +1,9 @@
 import './button.css';
 
-function Button({ label, type, onclick }) {
+function Button({ label, type, onclick, disabled}) {
 
     return (
-        <button className={`btn-${type}`} onClick={onclick}>{label}</button>
+        <button className={`btn-${type}`} onClick={onclick} disabled={disabled}>{label}</button>
     )
 }
 

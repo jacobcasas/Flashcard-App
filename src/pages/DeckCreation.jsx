@@ -4,15 +4,25 @@ import { useState } from 'react';
 
 function DeckCreation () {
     const [visibility, setVisibility] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
+    
     
     const createCategoryBtnTest = e => {
         e.preventDefault();
         setVisibility(!visibility);
     }
 
+    const toggleDisabled = () => {
+        const categoryInput = document.getElementById('name-category');
+        if (categoryInput.value.length > 0) {
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
+    };
+
     const appendNewCategory = (e) => {
-        e.preventDefault()
-        console.log("hi")
+        e.preventDefault();
     }
 
     return (
@@ -26,10 +36,9 @@ function DeckCreation () {
                         <div className={`create-category ${!visibility ? 'hidden' : ''}`}>
                             <label htmlFor="category-list">Create a new category</label>
                             <div className="cc-input-and-button">
-                                <input name='category-list' type="text" placeholder='i.e. "Language"'/>
-                                <Button label="Add" type="append" onclick={appendNewCategory} />
+                                <input id='name-category' name='category-list' type="text" placeholder='i.e. "Language"' onChange={toggleDisabled}/>
+                                <Button label="Add" type="append" onclick={(e) => appendNewCategory(e)} disabled={isDisabled}/>
                             </div>
-                            
                         </div>
                     </div>
                     <div className="form-element">
