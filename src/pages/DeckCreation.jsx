@@ -19,35 +19,26 @@ function DeckCreation () {
             }
     });
 
-    const [deckDetails, setDeckDetails] = useState(() => {
-        const storedDetails = localStorage.getItem("details");
-        return storedDetails
-            ? JSON.parse(storedDetails)
-            : {
-                category: "test",
-                deckTitle: "test",
-                deckDescription: "tesssstttt"
-            }
-    })
+    const [deckList, setDeckList] = useState(() => {
+        const storedDecks = localStorage.getItem("decks");
+        return storedDecks
+            ? JSON.parse(storedDecks)
+            : [];
+    });
 
     useEffect(() => {
         localStorage.setItem("categories", JSON.stringify(categories));
-        localStorage.setItem("details", JSON.stringify(deckDetails))
-    }, [categories, deckDetails]);
+        localStorage.setItem("decks", JSON.stringify(deckList));
+    }, [categories, deckList]);
 
     useEffect(() => {
-        console.log(categories, deckDetails);
-    }, [categories, deckDetails])
+        console.log(categories, deckList);
+    }, [categories, deckList]);
     
     const showCategoryCreator = e => {
         e.preventDefault();
         setVisibility(!visibility);
-    }
-
-    const selectCategory = (e) => {
-        e.preventDefault();
-        setSelectedCategory();
-    }
+    };
 
     const toggleDisabled = (e) => {
         const value = e.target.value;
@@ -72,17 +63,19 @@ function DeckCreation () {
         e.preventDefault();
         if (titleInput.trim() === '' && descriptionInput.trim() === '') return;
 
-        setDeckDetails(() => ({
-            category: {selectedCategory},
-            deckTitle: {titleInput},
-            deckDescription: {descriptionInput}
-        }));
+        const newDeck = {
+            id: crypto.randomUUID(),
+            category: selectedCategory,
+            title: titleInput,
+            description: descriptionInput
+        };
+
+        setDeckList(prevList => [...prevList, newDeck]);
+
+        setTitleInput('');
+        setDescriptionInput('');
+        setSelectedCategory('');
     };
-
-
-    const removeCategoriesTest = () => {
-        localStorage.removeItem("categories");
-    }
 
     return (
         <>
@@ -148,8 +141,11 @@ function DeckCreation () {
                         onclick={createNewDeck}
                     />
 
+                    <Link to="/studysession">
+                        <Button label="Go to test" type="attention" />
+                    </Link>
                     <Link to="/">
-                        <Button label="Go Home" type="neutral" />
+                        <Button label="Dashboard" type="neutral" />
                     </Link>
                     
                      

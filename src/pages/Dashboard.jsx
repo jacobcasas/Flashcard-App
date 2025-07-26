@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 function Dashboard () {
     const user = "jake";
     const today = new Date().getDay();
+    
+    const getCategory = localStorage.getItem("categories");
+    const categoryHeading = JSON.parse(getCategory);
 
     const dayAndMarker = [
         {
@@ -85,6 +88,9 @@ function Dashboard () {
                 </div>
                 <div className="deck-section">
                     <h2 className="color-gray-50">Your Decks</h2>
+                    <div className="deck-category-container">
+                        {}
+                    </div>
                     <Link to="/deckcreation">
                         <Button label="add new" type="confirm" />
                     </Link>
