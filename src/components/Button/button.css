@@ -32,6 +32,15 @@ button {
   background-color: var(--color-attention);
 }
 
+.btn-category {
+  background-color: var(--color-neutral);
+  transition: background-color 0.2s ease;
+}
+
+.btn-category:focus {
+  background-color: var(--color-attention);
+}
+
 .btn-neutral {
   background-color: var(--color-neutral);
 }
