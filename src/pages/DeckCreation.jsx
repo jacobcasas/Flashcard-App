@@ -24,9 +24,9 @@ function DeckCreation () {
         return storedDetails
             ? JSON.parse(storedDetails)
             : {
-                category: "okie",
-                deckTitle: "nice",
-                deckDescription: "okeeee"
+                category: "test",
+                deckTitle: "test",
+                deckDescription: "tesssstttt"
             }
     })
 
