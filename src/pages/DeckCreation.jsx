@@ -14,9 +14,7 @@ function DeckCreation () {
         const storedCategories = localStorage.getItem("categories");
         return storedCategories 
             ? JSON.parse(storedCategories) 
-            : {
-                categoryList: []
-            }
+            : []
     });
 
     const [deckList, setDeckList] = useState(() => {
@@ -50,10 +48,15 @@ function DeckCreation () {
         e.preventDefault();
         if (categoryInput.trim() === '') return;
 
-        setCategories(prev => ({
-            ...prev,
-            categoryList: [...prev.categoryList, categoryInput.trim()]
-        }));
+        const newCategory = categoryInput;
+
+        setCategories(prev => {
+            if (prev.includes(categoryInput)) {
+                return [...prev];
+            } else {
+                return [...prev, newCategory];
+            }
+        });
 
         setCategoryInput('');
         setIsDisabled(true);
@@ -85,8 +88,8 @@ function DeckCreation () {
                     <div className="form-element">
                         <label htmlFor="category">Category</label>
                         <div className="category-buttons-container">
-                            {categories.categoryList.map(el => {
-                                return <Button label={el} type={el === selectedCategory ? `attention` : `neutral`} value={el} onclick={e => {
+                            {categories.map(el => {
+                                return <Button key={el} label={el} type={el === selectedCategory ? `attention` : `neutral`} value={el} onclick={e => {
                                     e.preventDefault();
                                     setSelectedCategory(el);
                                 }}/>
