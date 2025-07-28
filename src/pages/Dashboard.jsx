@@ -1,5 +1,6 @@
 import '../styles/pages/dashboard.css';
 import Button from '../components/Button/Button';
+import DeckCard from '../components/DeckCard/DeckCard';
 import { Link } from 'react-router-dom';
 
 
@@ -89,7 +90,7 @@ function Dashboard () {
                 <div className="deck-section">
                     <h2 className="color-gray-50">Your Decks</h2>
                     <div className="deck-category-container">
-                        {}
+                       <DeckCard deckTitle="title" description="Hello" count="24" />
                     </div>
                     <Link to="/deckcreation">
                         <Button label="add new" type="confirm" />
