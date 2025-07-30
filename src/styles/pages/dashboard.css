@@ -18,8 +18,8 @@
     z-index: -2;
     width: 100vw;
     height: 130%;
-    margin-left: -2rem;
     margin-top: -4rem;
+    margin-left: -1rem;
 }
 
 .indexed {
@@ -82,7 +82,8 @@
     text-align: center;
 }
 
-/* goal info deck */
+/* Goal Info Deck */
+
 .goal-info-deck {
     display: flex;
     background-color: var(--color-gray-800);
@@ -100,4 +101,34 @@
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-half);
+}
+
+/* Deck Section */
+
+.deck-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.deck-category-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.deck-category {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.deck-row {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+    overflow-x: auto;
+    margin-left: -1rem;
+    padding: 0 1rem;
+    width: 100vw;
 }

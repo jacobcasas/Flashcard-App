@@ -144,9 +144,9 @@ function DeckCreation () {
                         onclick={createNewDeck}
                     />
 
-                    <Link to="/studysession">
+                    {/* <Link to="/studysession">
                         <Button label="Go to test" type="attention" />
-                    </Link>
+                    </Link> */}
                     <Link to="/">
                         <Button label="Dashboard" type="neutral" />
                     </Link>
