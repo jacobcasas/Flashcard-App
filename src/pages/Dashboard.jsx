@@ -1,11 +1,20 @@
 import '../styles/pages/dashboard.css';
 import Button from '../components/Button/Button';
+import DeckCard from '../components/DeckCard/DeckCard';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 
 function Dashboard () {
     const user = "jake";
     const today = new Date().getDay();
+    
+    const getCategory = localStorage.getItem("categories");
+    const getDeck = localStorage.getItem("decks");
+    const categoryHeading = JSON.parse(getCategory || "[]");
+    const deckCardDisplay = JSON.parse(getDeck || "[]");
+
+    const [selectedDeck, setSelectedDeck] = useState(null);
 
     const dayAndMarker = [
         {
@@ -85,9 +94,55 @@ function Dashboard () {
                 </div>
                 <div className="deck-section">
                     <h2 className="color-gray-50">Your Decks</h2>
+                    <div className="deck-category-container">
+                       {categoryHeading.length === 0 ? (
+                            <p>You have no decks, click on the button to create one.</p>
+                        ) : (
+                            categoryHeading.map(cat => {
+                                const decksInCategories = deckCardDisplay.filter(deck => deck.category === cat);
+                            
+                                if (decksInCategories.length > 0) {
+                                    return (
+                                        <div key={cat} className='deck-category'>
+                                            <h3>{cat}</h3>
+                                            <div className='deck-row'>
+                                            {decksInCategories.map(deck => (
+                                                    <DeckCard
+                                                        key={deck.id}
+                                                        deckTitle={deck.title}
+                                                        description={deck.description}
+                                                        count="24 count"
+                                                        onclick={() => setSelectedDeck(deck)}
+                                                    />
+                                            ))}
+                                            </div>
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div key={cat} className='deck-category'>
+                                            <h3>{cat}</h3>
+                                            <p>You dont have any cards in {cat}. Click the button to make a deck.</p>
+                                        </div>
+                                    )
+                                }
+                            })
+                       )}
+                    </div>
                     <Link to="/deckcreation">
                         <Button label="add new" type="confirm" />
                     </Link>
+
+                    {selectedDeck && (
+                        <div className="edit-deck-popup">
+                            <h2>{selectedDeck.title}</h2>
+                            <p>{selectedDeck.description}</p>
+                            <div className="popup-buttons">
+                                <Button label="close" type="attention" onclick={() => setSelectedDeck(null)}/>
+                                <Button label="study" />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>
