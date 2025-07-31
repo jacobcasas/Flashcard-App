@@ -104,7 +104,6 @@ function DeckCreation () {
                             <label htmlFor="category-list">Create a new category</label>
                             <div className="cc-input-and-button">
                                 <input
-                                 id='name-category' 
                                  name='category-list' 
                                  type="text" 
                                  placeholder='i.e. "Language"' 
