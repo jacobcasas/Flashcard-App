@@ -132,3 +132,20 @@
     padding: 0 1rem;
     width: 100vw;
 }
+
+.edit-deck-popup {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-800);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    padding: 3rem 1rem;
+    border-radius: var(--border-radius-lg);
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+}

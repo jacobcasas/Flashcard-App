@@ -2,6 +2,7 @@ import '../styles/pages/dashboard.css';
 import Button from '../components/Button/Button';
 import DeckCard from '../components/DeckCard/DeckCard';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 
 function Dashboard () {
@@ -12,6 +13,8 @@ function Dashboard () {
     const getDeck = localStorage.getItem("decks");
     const categoryHeading = JSON.parse(getCategory || "[]");
     const deckCardDisplay = JSON.parse(getDeck || "[]");
+
+    const [selectedDeck, setSelectedDeck] = useState(null);
 
     const dayAndMarker = [
         {
@@ -109,6 +112,7 @@ function Dashboard () {
                                                         deckTitle={deck.title}
                                                         description={deck.description}
                                                         count="24 count"
+                                                        onclick={() => setSelectedDeck(deck)}
                                                     />
                                             ))}
                                             </div>
@@ -128,6 +132,17 @@ function Dashboard () {
                     <Link to="/deckcreation">
                         <Button label="add new" type="confirm" />
                     </Link>
+
+                    {selectedDeck && (
+                        <div className="edit-deck-popup">
+                            <h2>{selectedDeck.title}</h2>
+                            <p>{selectedDeck.description}</p>
+                            <div className="popup-buttons">
+                                <Button label="close" type="attention" onclick={() => setSelectedDeck(null)}/>
+                                <Button label="study" />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>
