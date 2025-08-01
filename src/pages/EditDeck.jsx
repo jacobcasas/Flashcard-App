@@ -5,7 +5,7 @@ function EditDeck () {
     return (
         <div className="page-container">
             <h1>Deck Name</h1>
-            <p className="deck-description">This is a deck description</p>
+            <p className="center-text">This is a deck description</p>
             <div className="card-background">
                 <input 
                     type="text"

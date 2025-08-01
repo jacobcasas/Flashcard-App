@@ -225,6 +225,10 @@ p {
   display: none;
 }
 
+.center-text {
+  text-align: center;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--color-gray-900);

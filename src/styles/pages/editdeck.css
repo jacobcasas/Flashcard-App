@@ -1,0 +1,9 @@
+.card-background {
+    background-color: var(--color-gray-800);
+    width: 100%;
+}
+
+.under-card {
+    display: flex;
+    justify-content: space-between;
+}
