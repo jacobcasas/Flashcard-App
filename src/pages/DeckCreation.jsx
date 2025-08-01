@@ -139,6 +139,9 @@ function DeckCreation () {
                     type="success"
                     onclick={createNewDeck}
                 />
+                <Link to="/">
+                    <Button label="Dashboard" />
+                </Link>
             </div>
         </>
     )
