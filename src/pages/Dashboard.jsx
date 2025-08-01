@@ -2,7 +2,7 @@ import '../styles/pages/dashboard.css';
 import Button from '../components/Button/Button';
 import DeckCard from '../components/DeckCard/DeckCard';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function Dashboard () {
@@ -15,6 +15,19 @@ function Dashboard () {
     const deckCardDisplay = JSON.parse(getDeck || "[]");
 
     const [selectedDeck, setSelectedDeck] = useState(null);
+    const [isScrollable, setIsScrollable] = useState(true);
+
+    useEffect(() => {
+        if (!isScrollable) {
+            document.body.classList.add('no-scroll');
+        } else {
+            document.body.classList.remove('no-scroll');
+        }
+
+        return () => {
+            document.body.classList.remove('no-scroll');
+        }
+    }, [isScrollable]);
 
     const dayAndMarker = [
         {
@@ -46,6 +59,16 @@ function Dashboard () {
             day: "S"
         }
     ];
+
+    const handleDeckSelection = (deck) => {
+        setSelectedDeck(deck);
+        setIsScrollable(false);
+    };
+
+    const handleCloseDeckSelection = () => {
+        setSelectedDeck(null);
+        setIsScrollable(true);
+    };
 
     return (
         <>
@@ -112,7 +135,7 @@ function Dashboard () {
                                                         deckTitle={deck.title}
                                                         description={deck.description}
                                                         count="24 count"
-                                                        onclick={() => setSelectedDeck(deck)}
+                                                        onclick={() => handleDeckSelection(deck)}
                                                     />
                                             ))}
                                             </div>
@@ -134,12 +157,14 @@ function Dashboard () {
                     </Link>
 
                     {selectedDeck && (
-                        <div className="edit-deck-popup">
-                            <h2>{selectedDeck.title}</h2>
-                            <p>{selectedDeck.description}</p>
-                            <div className="popup-buttons">
-                                <Button label="close" type="attention" onclick={() => setSelectedDeck(null)}/>
-                                <Button label="study" />
+                        <div className="popup-background">
+                            <div className="edit-deck-popup">
+                                <h2>{selectedDeck.title}</h2>
+                                <p>{selectedDeck.description}</p>
+                                <div className="popup-buttons">
+                                    <Button label="close" type="attention stop-scroll" onclick={() => handleCloseDeckSelection()}/>
+                                    <Button label="study" />
+                                </div>
                             </div>
                         </div>
                     )}
