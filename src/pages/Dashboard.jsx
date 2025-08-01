@@ -162,12 +162,14 @@ function Dashboard () {
                                 <h2>{selectedDeck.title}</h2>
                                 <p>{selectedDeck.description}</p>
                                 <div className="popup-buttons">
-                                    <Button label="edit" />
+                                    <Link to="/editdeck">
+                                        <Button label="edit" type="neutral"/>
+                                    </Link>
                                     <Button label="study" />
                                 </div>
                                 <Button 
                                     label="close" 
-                                    type="attention stop-scroll" 
+                                    type="attention" 
                                     onclick={() => handleCloseDeckSelection()}
                                 />
                             </div>
