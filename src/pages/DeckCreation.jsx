@@ -1,48 +1,66 @@
 import '../styles/pages/deckcreation.css';
 import Button from '../components/Button/Button';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function DeckCreation () {
     const [visibility, setVisibility] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const [categoryInput, setCategoryInput] = useState('');
-    const [user, setUser] = useState(() => {
-        const stored = localStorage.getItem("user");
-        return stored ? JSON.parse(stored) : {name: "Jacob", age: 26, hobbies: []}
+    const [titleInput, setTitleInput] = useState('');
+    const [descriptionInput, setDescriptionInput] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [categoryList, setCategoryList] = useState(() => {
+        const storedCategories = localStorage.getItem("categories");
+        return storedCategories ? JSON.parse(storedCategories) : [];
+    });
+    const [deckList, setDeckList] = useState(()=> {
+        const storedDecks = localStorage.getItem("decks");
+        return storedDecks ? JSON.parse(storedDecks) : [];
     });
 
     useEffect(() => {
-        localStorage.setItem("user", JSON.stringify(user))
-    }, [user]);
+        localStorage.setItem("categories", JSON.stringify(categoryList));
+        localStorage.setItem("decks", JSON.stringify(deckList));
+    }, [categoryList, deckList]);
 
     useEffect(() => {
-        console.log(user.hobbies);
-    }, [user])
-    
-    const showCategoryCreator = e => {
-        e.preventDefault();
-        setVisibility(!visibility);
-    }
-
-    const toggleDisabled = (e) => {
-        const value = e.target.value;
-        setCategoryInput(value);
-        setIsDisabled(value.trim().length === 0);
-    };
+        console.log(categoryList, deckList);
+    }, [categoryList, deckList]);
 
     const createNewCategory = (e) => {
         e.preventDefault();
-        if (categoryInput.trim() === '') return;
+        if (categoryInput.trim() === "") return;
 
-        setUser(prev => ({
-            ...prev,
-            hobbies: [...prev.hobbies, categoryInput.trim()]
-        }));
+        setCategoryList(prev => [...prev, categoryInput.trim()])
 
-        setCategoryInput('');
+        setCategoryInput("");
         setIsDisabled(true);
-    };
+    }
+
+    const createNewDeck = (e) => {
+        e.preventDefault();
+
+        const newDeck = {
+            category: selectedCategory,
+            title: titleInput,
+            description: descriptionInput
+        };
+
+        setDeckList(prev => [...prev, newDeck]);
+
+        setTitleInput('');
+        setDescriptionInput('');
+        setSelectedCategory('');
+    }
+
+
+
+    const handleCategoryInput = (e) => {
+        const value = e.target.value;
+        setCategoryInput(value);
+        setIsDisabled(value.trim().length === 0)
+    }
 
     return (
         <>
@@ -51,7 +69,29 @@ function DeckCreation () {
                 <form className='create-deck-form'>
                     <div className="form-element">
                         <label htmlFor="category">Category</label>
-                        <Button label="+" type="add" onclick={(e) => createCategoryBtnTest(e)}/>
+                        <div className="category-buttons-container">
+                            {categoryList.map(category => (
+                                <Button 
+                                    key={category}
+                                    label={category}
+                                    type={category === selectedCategory ? "attention" : "neutral"}
+                                    value={category}
+                                    onclick={e => {
+                                        e.preventDefault();
+                                        setSelectedCategory(category);
+                                    }}   
+                                />
+                            ))}
+                            <Button 
+                                label="+"  
+                                type="add" 
+                                onclick={(e) => {
+                                    e.preventDefault();
+                                    setVisibility(!visibility);
+                                }}
+                            />
+                        </div>
+                        
                         <div className={`create-category ${!visibility ? 'hidden' : ''}`}>
                             <label htmlFor="category-list">Create a new category</label>
                             <div className="cc-input-and-button">
@@ -60,13 +100,13 @@ function DeckCreation () {
                                  type="text" 
                                  placeholder='i.e. "Language"' 
                                  value={categoryInput}
-                                 onChange={toggleDisabled}
+                                 onChange={handleCategoryInput}
                                  />
                                 <Button
                                  label="➔" 
                                  type="append" 
-                                 onclick={createNewCategory} 
                                  disabled={isDisabled}
+                                 onclick={createNewCategory}
                                 />
                             </div>
                         </div>
@@ -94,6 +134,11 @@ function DeckCreation () {
                         </textarea>
                     </div>
                 </form>
+                <Button 
+                    label="Create Category"
+                    type="success"
+                    onclick={createNewDeck}
+                />
             </div>
         </>
     )
