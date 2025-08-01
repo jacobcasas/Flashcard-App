@@ -1,4 +1,5 @@
 import Button from "../components/Button/Button"
+import '../styles/pages/editdeck.css'
 
 function EditDeck () {
     
@@ -8,13 +9,14 @@ function EditDeck () {
             <p className="center-text">This is a deck description</p>
             <div className="card-background">
                 <input 
+                    className="card-input"
                     type="text"
                     placeholder="front side"
                 />
             </div>
             <div className="under-card">
                 <Button label="<" />
-                <Button label="flip card" type="neutral" />
+                <Button label="flip card / your question" type="neutral" />
                 <Button label=">" />
             </div>
         </div>
