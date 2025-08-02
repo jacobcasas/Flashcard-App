@@ -45,7 +45,8 @@ function DeckCreation () {
             id: crypto.randomUUID(),
             category: selectedCategory,
             title: titleInput,
-            description: descriptionInput
+            description: descriptionInput,
+            cards: []
         };
 
         setDeckList(prev => [...prev, newDeck]);

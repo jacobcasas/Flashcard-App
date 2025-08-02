@@ -6,6 +6,10 @@
     margin-top: 2rem;
 }
 
+.card-input {
+    text-align: center;
+}
+
 .card-input::placeholder {
     text-align: center;
 }
