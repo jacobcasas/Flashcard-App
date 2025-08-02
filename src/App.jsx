@@ -6,12 +6,16 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
+
+  const getDeck = localStorage.getItem("decks");
+  const deckDetails = JSON.parse(getDeck);
+
   return (
     <Routes>
       <Route path="/" element={<Dashboard />}></Route>
       <Route path="/deckcreation" element={<DeckCreation />}></Route>
       <Route path="/studysession" element={<StudySession />}></Route>
-      <Route path="/editdeck" element={<EditDeck />}></Route>
+      <Route path="/editdeck/:deckId" element={<EditDeck />}></Route>
     </Routes>
   );
 }

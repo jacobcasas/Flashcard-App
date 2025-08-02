@@ -162,7 +162,7 @@ function Dashboard () {
                                 <h2>{selectedDeck.title}</h2>
                                 <p>{selectedDeck.description}</p>
                                 <div className="popup-buttons">
-                                    <Link to="/editdeck">
+                                    <Link to={`/editdeck/${selectedDeck.id}`}>
                                         <Button label="edit" type="neutral"/>
                                     </Link>
                                     <Button label="study" />

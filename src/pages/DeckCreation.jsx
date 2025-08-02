@@ -42,6 +42,7 @@ function DeckCreation () {
         e.preventDefault();
 
         const newDeck = {
+            id: crypto.randomUUID(),
             category: selectedCategory,
             title: titleInput,
             description: descriptionInput
@@ -135,7 +136,7 @@ function DeckCreation () {
                     </div>
                 </form>
                 <Button 
-                    label="Create Category"
+                    label="Create Deck"
                     type="success"
                     onclick={createNewDeck}
                 />
