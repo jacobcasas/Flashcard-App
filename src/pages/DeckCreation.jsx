@@ -1,6 +1,6 @@
 import '../styles/pages/deckcreation.css';
 import Button from '../components/Button/Button';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function DeckCreation () {
@@ -55,9 +55,7 @@ function DeckCreation () {
         setDescriptionInput('');
         setSelectedCategory('');
     }
-
-
-
+    
     const handleCategoryInput = (e) => {
         const value = e.target.value;
         setCategoryInput(value);

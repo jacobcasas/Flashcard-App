@@ -9,6 +9,8 @@ function EditDeck () {
     const [deck, setDeck] = useState(null);
     const [frontCard, setFrontCard] = useState('');
     const [backCard, setBackCard] = useState('');
+    const [currentCardIndex, setCurrentCardIndex] = useState(0);
+    const [isFrontOfCard, setIsFrontOfCard] = useState(true);
     
 
     useEffect(() => {
@@ -17,27 +19,72 @@ function EditDeck () {
 
         const foundDeck = parsedDecks.find(d => d.id === deckId);
 
-        setDeck(foundDeck);
+        if (foundDeck) {
+            if (!Array.isArray(foundDeck.cards)) {
+                foundDeck.cards = [];
+                const updatedDecks = parsedDecks.map(d => d.id === deckId ? foundDeck : d);
+                localStorage.setItem("decks", JSON.stringify(updatedDecks));
+            }
+            setDeck(foundDeck);
+        } else {
+            console.warn("Deck not found", foundDeck);
+        }
+
+        console.log("deckId:", deckId);
+        console.log("parsedDecks:", parsedDecks);
+
     }, [deckId]);
 
-    const createCard = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        if (deck && currentCardIndex < deck.cards.length) {
+            const currentCard = deck.cards[currentCardIndex];
+            setFrontCard(currentCard.front);
+            setBackCard(currentCard.back);
+        } else {
+            setFrontCard('');
+            setBackCard('');
+        }
 
-        const newCard = {
+    }, [currentCardIndex, deck]);
+
+    //copy the deck and overwrite currentCardIndex with front and back of card
+    const handleNextButton = (e) => {
+        const editedCard = {
             front: frontCard,
             back: backCard
         }
 
-        const updatedCards = [...deck.cards, newCard];
+        if (currentCardIndex < deck.cards.length) {
+            const editedDeck = [...deck.cards];
+            editedDeck[currentCardIndex] = editedCard;
 
-        setDeck(prev => ({
-            ...prev,
-            cards: updatedCards
-        }));
+            setDeck(prev => ({
+                ...prev,
+                cards: editedDeck
+            }));
+        } else {
+            const updatedCards = [...deck.cards, editedCard];
+
+            setDeck(prev => ({
+                ...prev,
+                cards: updatedCards
+            }));
+        };
+
         setFrontCard('');
         setBackCard('');
+        setCurrentCardIndex(currentCardIndex + 1);
     }
 
+    const handleCardInput = (e) => {
+        const value = e.target.value;
+        if (isFrontOfCard) {
+            setFrontCard(value);
+        } else {
+            setBackCard(value);
+        }
+    }
+    
     if (!deck) return <p className="center-text">Deck not found...</p>;
 
     return (
@@ -48,14 +95,18 @@ function EditDeck () {
                 <input 
                     className="card-input"
                     type="text"
-                    placeholder="front side / the prompt"
-                    value={frontCard}
+                    placeholder={isFrontOfCard ? `front card / prompt` : `back card / answer`}
+                    value={isFrontOfCard ? frontCard : backCard}
+                    onChange={handleCardInput}
                 />
             </div>
             <div className="under-card">
                 <Button label="<" />
-                <Button label="Flip Card" type="neutral" />
-                <Button label=">" />
+                <Button 
+                    label="Flip Card" 
+                    type="neutral"
+                    onclick={() => setIsFrontOfCard(!isFrontOfCard)} />
+                <Button label=">" onclick={() => handleNextButton}/>
             </div>
         </div>
     )
