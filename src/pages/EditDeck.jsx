@@ -11,6 +11,7 @@ function EditDeck () {
     const [backCard, setBackCard] = useState('');
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isFrontOfCard, setIsFrontOfCard] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(true);
     
 
     useEffect(() => {
@@ -47,33 +48,64 @@ function EditDeck () {
 
     }, [currentCardIndex, deck]);
 
+
+    useEffect(() => {
+        if (frontCard && backCard !== ''){
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
+    }, [frontCard, backCard, isDisabled])
+
+    useEffect(() => {
+        console.log(currentCardIndex);
+    }, [currentCardIndex]);
+
     //copy the deck and overwrite currentCardIndex with front and back of card
-    const handleNextButton = (e) => {
+    const handleNextButton = () => {
         const editedCard = {
+            id: crypto.randomUUID(),
+            number: currentCardIndex + 1,
             front: frontCard,
             back: backCard
         }
+
+        let newCards;
 
         if (currentCardIndex < deck.cards.length) {
             const editedDeck = [...deck.cards];
             editedDeck[currentCardIndex] = editedCard;
 
+            newCards = editedDeck;
+
             setDeck(prev => ({
                 ...prev,
                 cards: editedDeck
             }));
+                
         } else {
             const updatedCards = [...deck.cards, editedCard];
+            newCards = updatedCards;
 
             setDeck(prev => ({
                 ...prev,
                 cards: updatedCards
             }));
+                
         };
 
+        const storedDecks = JSON.parse(localStorage.getItem("decks"));
+
+        const updatedDecks = storedDecks.map(d => 
+            d.id === deck.id ? { ...d, cards: newCards } : d
+        );
+
+        localStorage.setItem("decks", JSON.stringify(updatedDecks));
+
+        setCurrentCardIndex(currentCardIndex + 1);
+        setIsFrontOfCard(true);
         setFrontCard('');
         setBackCard('');
-        setCurrentCardIndex(currentCardIndex + 1);
     }
 
     const handleCardInput = (e) => {
@@ -91,22 +123,37 @@ function EditDeck () {
         <div className="page-container">
             <h1>{deck.category} - {deck.title}</h1>
             <h5 className="center-text">{deck.description}</h5>
-            <div className="card-background">
-                <input 
-                    className="card-input"
-                    type="text"
-                    placeholder={isFrontOfCard ? `front card / prompt` : `back card / answer`}
-                    value={isFrontOfCard ? frontCard : backCard}
-                    onChange={handleCardInput}
-                />
+            <div className="card-count-and-card">
+                <h2 className="center-text">Card {currentCardIndex + 1}</h2>
+                <div className="card-background">
+                    <input 
+                        className="card-input"
+                        type="text"
+                        placeholder={isFrontOfCard ? `front card / prompt` : `back card / answer`}
+                        value={isFrontOfCard ? frontCard : backCard}
+                        onChange={handleCardInput}
+                    />
+                </div>
             </div>
+            
             <div className="under-card">
                 <Button label="<" />
                 <Button 
                     label="Flip Card" 
                     type="neutral"
                     onclick={() => setIsFrontOfCard(!isFrontOfCard)} />
-                <Button label=">" onclick={() => handleNextButton}/>
+                <Button label=">" onclick={() => handleNextButton()} disabled={isDisabled}/>
+            </div>
+            <div className="list-of-cards">
+                {deck.cards.map(card => (
+                    <div key={card.id} className="card-details">
+                     <h4>Card {card.number}</h4>
+                        <ul>
+                            <li><strong>Front Card:</strong> {card.front}</li>
+                            <li><strong>Back Card:</strong> {card.back}</li>
+                        </ul>   
+                    </div>
+                ))}
             </div>
         </div>
     )
