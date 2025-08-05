@@ -11,7 +11,8 @@ function EditDeck () {
     const [backCard, setBackCard] = useState('');
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isFrontOfCard, setIsFrontOfCard] = useState(true);
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [isNextDisabled, setIsNextDisabled] = useState(true);
+    const [isPrevDisabled, setIsPrevDisabled] = useState(false);
     
 
     useEffect(() => {
@@ -48,15 +49,23 @@ function EditDeck () {
 
     }, [currentCardIndex, deck]);
 
-
+//#region 
     useEffect(() => {
         if (frontCard && backCard !== ''){
-            setIsDisabled(false);
+            setIsNextDisabled(false);
         } else {
-            setIsDisabled(true);
+            setIsNextDisabled(true);
         }
-    }, [frontCard, backCard, isDisabled])
+    }, [frontCard, backCard, isNextDisabled]);
 
+    useEffect(() => {
+        if (currentCardIndex === 0) {
+            setIsPrevDisabled(true);
+        } else if (currentCardIndex > 0) {
+            setIsPrevDisabled(false);
+        }
+    }, [currentCardIndex, isPrevDisabled]);
+//#endregion
     useEffect(() => {
         console.log(currentCardIndex);
     }, [currentCardIndex]);
@@ -108,6 +117,11 @@ function EditDeck () {
         setBackCard('');
     }
 
+    const handlePrevButton = () => {
+        setCurrentCardIndex(currentCardIndex - 1);
+        setIsFrontOfCard(true);
+    }
+
     const handleCardInput = (e) => {
         const value = e.target.value;
         if (isFrontOfCard) {
@@ -137,12 +151,12 @@ function EditDeck () {
             </div>
             
             <div className="under-card">
-                <Button label="<" />
+                <Button label="<" onclick={() => handlePrevButton()} disabled={isPrevDisabled}/>
                 <Button 
                     label="Flip Card" 
                     type="neutral"
                     onclick={() => setIsFrontOfCard(!isFrontOfCard)} />
-                <Button label=">" onclick={() => handleNextButton()} disabled={isDisabled}/>
+                <Button label=">" onclick={() => handleNextButton()} disabled={isNextDisabled}/>
             </div>
             <div className="list-of-cards">
                 {deck.cards.map(card => (
