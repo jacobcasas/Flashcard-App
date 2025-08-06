@@ -49,7 +49,7 @@ function EditDeck () {
 
     }, [currentCardIndex, deck]);
 
-//#region 
+//#region disabling buttons
     useEffect(() => {
         if (frontCard && backCard !== ''){
             setIsNextDisabled(false);
