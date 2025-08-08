@@ -4,7 +4,7 @@ function Button({ label, type, onclick, disabled, value, submit}) {
 
     return (
         <button 
-        className={`btn-${type}`} 
+        className={`btn-${type}`}
         onClick={onclick} 
         disabled={disabled} 
         value={value}

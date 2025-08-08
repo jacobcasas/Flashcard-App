@@ -2,135 +2,116 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button/Button"
 import '../styles/pages/editdeck.css'
 import { useParams } from "react-router-dom";
+import { getDecks, saveDecks } from '../utils/storage';
 
 function EditDeck () {
 
     const { deckId } = useParams();
-    const [deck, setDeck] = useState(null);
+    const [deck, setDeck] = useState(null)
     const [frontCard, setFrontCard] = useState('');
     const [backCard, setBackCard] = useState('');
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isFrontOfCard, setIsFrontOfCard] = useState(true);
     const [isNextDisabled, setIsNextDisabled] = useState(true);
     const [isPrevDisabled, setIsPrevDisabled] = useState(false);
-    
+
 
     useEffect(() => {
-        const storedDecks = localStorage.getItem("decks");
-        const parsedDecks = JSON.parse(storedDecks);
-
-        const foundDeck = parsedDecks.find(d => d.id === deckId);
+        const decks = getDecks();
+        const foundDeck = decks.find(d => d.id === deckId);
 
         if (foundDeck) {
             if (!Array.isArray(foundDeck.cards)) {
                 foundDeck.cards = [];
-                const updatedDecks = parsedDecks.map(d => d.id === deckId ? foundDeck : d);
-                localStorage.setItem("decks", JSON.stringify(updatedDecks));
+                const updatedDecks = decks.map(d => d.id === deckId ? foundDeck : d);
+                saveDecks(updatedDecks);
             }
+
             setDeck(foundDeck);
+
+            const savedIndex = parseInt(localStorage.getItem(`editIndex_${deckId}`), 10);
+            if (!isNaN(savedIndex)) {
+            setCurrentCardIndex(savedIndex);
+            } else {
+            setCurrentCardIndex(foundDeck.cards.length);
+            }
+
         } else {
-            console.warn("Deck not found", foundDeck);
+            console.warn("Deck not found");
         }
-
-        console.log("deckId:", deckId);
-        console.log("parsedDecks:", parsedDecks);
-
     }, [deckId]);
 
     useEffect(() => {
-        if (deck && currentCardIndex < deck.cards.length) {
-            const currentCard = deck.cards[currentCardIndex];
-            setFrontCard(currentCard.front);
-            setBackCard(currentCard.back);
-        } else {
-            setFrontCard('');
-            setBackCard('');
-        }
-
-    }, [currentCardIndex, deck]);
-
-//#region disabling buttons
-    useEffect(() => {
-        if (frontCard && backCard !== ''){
-            setIsNextDisabled(false);
-        } else {
-            setIsNextDisabled(true);
-        }
-    }, [frontCard, backCard, isNextDisabled]);
+        if (!deck) return;
+        const card = deck.cards[currentCardIndex];
+        setFrontCard(card?.front || '');
+        setBackCard(card?.back || '');
+        localStorage.setItem(`editIndex_${deckId}`, currentCardIndex);
+    }, [deck, currentCardIndex, deckId]);
 
     useEffect(() => {
-        if (currentCardIndex === 0) {
-            setIsPrevDisabled(true);
-        } else if (currentCardIndex > 0) {
-            setIsPrevDisabled(false);
-        }
-    }, [currentCardIndex, isPrevDisabled]);
-//#endregion
+        setIsNextDisabled(!(frontCard && backCard));
+    }, [frontCard, backCard]);
+
     useEffect(() => {
-        console.log(currentCardIndex);
+        setIsPrevDisabled(currentCardIndex === 0);
     }, [currentCardIndex]);
+    
+    const updateDeckCards = (newCards) => {
+        const reIndexedCards = newCards.map((card, index) => ({
+            ...card,
+            number: index + 1
+        }))
 
-    //copy the deck and overwrite currentCardIndex with front and back of card
+        const updatedDeck = { ...deck, cards: reIndexedCards };
+        setDeck(updatedDeck);
+
+        const allDecks = getDecks();
+        const updatedDecks = allDecks.map(d => d.id === deck.id ? updatedDeck : d);
+        saveDecks(updatedDecks);
+    }
+
     const handleNextButton = () => {
         const editedCard = {
             id: crypto.randomUUID(),
-            number: currentCardIndex + 1,
             front: frontCard,
             back: backCard
         }
 
-        let newCards;
+        let updatedCards;
 
         if (currentCardIndex < deck.cards.length) {
-            const editedDeck = [...deck.cards];
-            editedDeck[currentCardIndex] = editedCard;
-
-            newCards = editedDeck;
-
-            setDeck(prev => ({
-                ...prev,
-                cards: editedDeck
-            }));
-                
+            const newCards = [...deck.cards];
+            newCards[currentCardIndex] = editedCard;
+            updatedCards = newCards;
         } else {
-            const updatedCards = [...deck.cards, editedCard];
-            newCards = updatedCards;
+            updatedCards = [...deck.cards, editedCard];
+        }
 
-            setDeck(prev => ({
-                ...prev,
-                cards: updatedCards
-            }));
-                
-        };
-
-        const storedDecks = JSON.parse(localStorage.getItem("decks"));
-
-        const updatedDecks = storedDecks.map(d => 
-            d.id === deck.id ? { ...d, cards: newCards } : d
-        );
-
-        localStorage.setItem("decks", JSON.stringify(updatedDecks));
-
+        updateDeckCards(updatedCards)
         setCurrentCardIndex(currentCardIndex + 1);
         setIsFrontOfCard(true);
         setFrontCard('');
         setBackCard('');
     }
-
+    
     const handlePrevButton = () => {
         setCurrentCardIndex(currentCardIndex - 1);
         setIsFrontOfCard(true);
     }
 
+    const handleDeleteCardButton = (cardId) => {
+        const filteredCards = deck.cards.filter(card => card.id !== cardId);
+
+        updateDeckCards(filteredCards);
+        setCurrentCardIndex(prev => Math.max(0, Math.min(prev, filteredCards.length - 1)));
+    }
+
     const handleCardInput = (e) => {
         const value = e.target.value;
-        if (isFrontOfCard) {
-            setFrontCard(value);
-        } else {
-            setBackCard(value);
-        }
+        isFrontOfCard ? setFrontCard(value) : setBackCard(value);
     }
-    
+
     if (!deck) return <p className="center-text">Deck not found...</p>;
 
     return (
@@ -160,13 +141,20 @@ function EditDeck () {
             </div>
             <div className="list-of-cards">
                 {deck.cards.map(card => (
-                    <div key={card.id} className="card-details">
-                     <h4>Card {card.number}</h4>
-                        <ul>
-                            <li><strong>Front Card:</strong> {card.front}</li>
-                            <li><strong>Back Card:</strong> {card.back}</li>
-                        </ul>   
-                    </div>
+                    <article key={card.id} className="card-list-item">
+                        <div  className="card-details">
+                        <h4>Card {card.number}</h4>
+                            <ul>
+                                <li><strong>Front Card:</strong> {card.front}</li>
+                                <li><strong>Back Card:</strong> {card.back}</li>
+                            </ul>   
+                        </div>
+                        <Button 
+                            label={<img src="/src/assets/trash-can.svg" />} 
+                            type="trash"
+                            onclick={() => handleDeleteCardButton(card.id)}
+                        />
+                    </article>
                 ))}
             </div>
         </div>

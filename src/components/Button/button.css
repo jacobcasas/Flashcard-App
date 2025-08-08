@@ -53,3 +53,8 @@ button {
     color: var(--color-gray-900);
     background-color: var(--color-confirm);
 }
+
+.btn-trash {
+  background-color: transparent;
+  box-shadow: unset;
+}
