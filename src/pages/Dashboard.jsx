@@ -134,7 +134,7 @@ function Dashboard () {
                                                         key={deck.id}
                                                         deckTitle={deck.title}
                                                         description={deck.description}
-                                                        count="24 count"
+                                                        count={`${deck.cards.length} count`}
                                                         onclick={() => handleDeckSelection(deck)}
                                                     />
                                             ))}
@@ -165,7 +165,9 @@ function Dashboard () {
                                     <Link to={`/editdeck/${selectedDeck.id}`}>
                                         <Button label="edit" type="neutral"/>
                                     </Link>
-                                    <Button label="study" />
+                                    <Link to={`/studysession/${selectedDeck.id}`}>
+                                        <Button label="study" type="neutral"/>
+                                    </Link>
                                 </div>
                                 <Button 
                                     label="close" 

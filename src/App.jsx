@@ -14,7 +14,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Dashboard />}></Route>
       <Route path="/deckcreation" element={<DeckCreation />}></Route>
-      <Route path="/studysession" element={<StudySession />}></Route>
+      <Route path="/studysession/:deckId" element={<StudySession />}></Route>
       <Route path="/editdeck/:deckId" element={<EditDeck />}></Route>
     </Routes>
   );

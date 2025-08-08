@@ -1,33 +1,22 @@
+import { useEffect } from "react";
 import Button from "../components/Button/Button";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { getDecks, saveDecks } from "../utils/storage";
+import { useDeck } from "../hooks/useDeck";
+import '../styles/pages/studysession.css'
 
 function StudySession () {
-    const testCategory = localStorage.getItem("categories")
-    const testDeckDisplay = localStorage.getItem("decks");
-    const categoryDisplay = JSON.parse(testCategory)
-    const deckDisplay = JSON.parse(testDeckDisplay);
+    const { deckId } = useParams();
+    const { deck, setDeck, currentCardIndex, setCurrentCardIndex } = useDeck(deckId);
 
+    if (!deck) return <p>Deck not found...</p>
+    
     return (
         <div className="page-container">
-            {categoryDisplay.map(cat => (
-                <div>
-                    <h2 key={cat}>{cat}</h2>
-                    {deckDisplay.map(deck => {
-                        if (deck.category === cat) {
-                            return (
-                                <div className={deck.id}>
-                                    <h4>{deck.title}</h4>
-                                    <p>{deck.description}</p>
-                                </div>
-                            )
-                        }
-                    })}
-                </div>
-            ))}
-
-            <Link to="/deckcreation">
-                <Button label="Back to Deck Creation" />
-            </Link>
+            <header className="study-session-heading">
+                <h1>Study Session: {deck.title}</h1>
+                <h5 className="color-gray-400">{deck.description}</h5>
+            </header>
             
         </div>
     );

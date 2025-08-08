@@ -3,43 +3,17 @@ import Button from "../components/Button/Button"
 import '../styles/pages/editdeck.css'
 import { useParams } from "react-router-dom";
 import { getDecks, saveDecks } from '../utils/storage';
+import { useDeck } from "../hooks/useDeck";
 
 function EditDeck () {
 
     const { deckId } = useParams();
-    const [deck, setDeck] = useState(null)
+    const { deck, setDeck, currentCardIndex, setCurrentCardIndex} = useDeck(deckId);
     const [frontCard, setFrontCard] = useState('');
     const [backCard, setBackCard] = useState('');
-    const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isFrontOfCard, setIsFrontOfCard] = useState(true);
     const [isNextDisabled, setIsNextDisabled] = useState(true);
     const [isPrevDisabled, setIsPrevDisabled] = useState(false);
-
-
-    useEffect(() => {
-        const decks = getDecks();
-        const foundDeck = decks.find(d => d.id === deckId);
-
-        if (foundDeck) {
-            if (!Array.isArray(foundDeck.cards)) {
-                foundDeck.cards = [];
-                const updatedDecks = decks.map(d => d.id === deckId ? foundDeck : d);
-                saveDecks(updatedDecks);
-            }
-
-            setDeck(foundDeck);
-
-            const savedIndex = parseInt(localStorage.getItem(`editIndex_${deckId}`), 10);
-            if (!isNaN(savedIndex)) {
-            setCurrentCardIndex(savedIndex);
-            } else {
-            setCurrentCardIndex(foundDeck.cards.length);
-            }
-
-        } else {
-            console.warn("Deck not found");
-        }
-    }, [deckId]);
 
     useEffect(() => {
         if (!deck) return;
@@ -116,8 +90,9 @@ function EditDeck () {
 
     return (
         <div className="page-container">
-            <h1>{deck.category} - {deck.title}</h1>
-            <h5 className="center-text">{deck.description}</h5>
+            <h1>{deck.category}</h1>
+            <h3>{deck.title}</h3>
+            <h5>{deck.description}</h5>
             <div className="card-count-and-card">
                 <h2 className="center-text">Card {currentCardIndex + 1}</h2>
                 <div className="card-background">
