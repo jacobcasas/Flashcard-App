@@ -4,6 +4,12 @@
     gap: var(--spacing-2);
 }
 
+.study-card-and-count {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
 .study-card {
     width: 100%;
     max-width: 550px;
@@ -12,4 +18,27 @@
     background-color: var(--color-gray-800);
     border-radius: var(--border-radius-lg);
     margin: 0 auto;
+}
+
+.study-under-card{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-5);
+    width: 80%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.correct-prompt {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.prompt-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
 }

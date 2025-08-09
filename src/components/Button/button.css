@@ -44,7 +44,7 @@ button {
 .btn-checkmark {
   background-color: var(--color-success);
   position: relative;
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-lg);
   width: 16px;
   height: 16px;
 }
@@ -58,8 +58,8 @@ button {
 }
 
 .btn-confirm {
-    color: var(--color-gray-900);
-    background-color: var(--color-confirm);
+  color: var(--color-gray-900);
+  background-color: var(--color-confirm);
 }
 
 .btn-trash {
