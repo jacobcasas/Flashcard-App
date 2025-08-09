@@ -41,6 +41,14 @@ button {
   background-color: var(--color-attention);
 }
 
+.btn-checkmark {
+  background-color: var(--color-success);
+  position: relative;
+  border-radius: var(--border-radius-xl);
+  width: 16px;
+  height: 16px;
+}
+
 .btn-neutral {
   background-color: var(--color-neutral);
 }

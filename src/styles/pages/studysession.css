@@ -3,3 +3,13 @@
     flex-direction: column;
     gap: var(--spacing-2);
 }
+
+.study-card {
+    width: 100%;
+    max-width: 550px;
+    padding: 5rem 0;
+    text-align: center;
+    background-color: var(--color-gray-800);
+    border-radius: var(--border-radius-lg);
+    margin: 0 auto;
+}

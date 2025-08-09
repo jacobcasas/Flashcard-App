@@ -4,6 +4,13 @@
     gap: var(--spacing-2);
 }
 
+.card-count-and-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .card-background {
     background-color: var(--color-gray-800);
     width: 100%;
