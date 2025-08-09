@@ -29,6 +29,10 @@ function Dashboard () {
         }
     }, [isScrollable]);
 
+    useEffect(() => {
+        console.log(deckCardDisplay);
+    }, [deckCardDisplay])
+
     const dayAndMarker = [
         {
             id: 0,
@@ -134,7 +138,7 @@ function Dashboard () {
                                                         key={deck.id}
                                                         deckTitle={deck.title}
                                                         description={deck.description}
-                                                        count={`${deck.cards.length} count`}
+                                                        count={`${deck.cards.length} cards`}
                                                         onclick={() => handleDeckSelection(deck)}
                                                     />
                                             ))}

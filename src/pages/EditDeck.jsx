@@ -90,9 +90,12 @@ function EditDeck () {
 
     return (
         <div className="page-container">
-            <h1>{deck.category}</h1>
-            <h3>{deck.title}</h3>
-            <h5>{deck.description}</h5>
+            <header className="edit-deck-heading">
+                <h1>{deck.category}</h1>
+                <h3 className="center-text">{deck.title}</h3>
+                <p className="color-gray-400 center-text">{deck.description}</p>
+            </header>
+            
             <div className="card-count-and-card">
                 <h2 className="center-text">Card {currentCardIndex + 1}</h2>
                 <div className="card-background">
