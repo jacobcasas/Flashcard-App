@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import Button from '../components/Button/Button'
-import '../styles/pages/completesession.css'
+import Button from '../components/Button/Button';
+import '../styles/pages/completesession.css';
 
 function CompleteSession({ score, incorrect }) {
     return (
@@ -8,8 +8,8 @@ function CompleteSession({ score, incorrect }) {
             <div className="heading-and-score">
                 <h5>Results</h5>
                 <div className="quiz-results">
-                    <h2>You Scored:</h2>
-                    <p>{score}</p>
+                    <h2 className='color-confirm'>You Scored:</h2>
+                    <h4 className='center-text'>{score}</h4>
                 </div>
             </div>
             

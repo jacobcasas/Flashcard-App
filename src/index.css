@@ -162,6 +162,11 @@ p {
   font-size: 1rem;
 }
 
+ol > li {
+  font-size: 1.728rem;
+  font-weight: 600;
+}
+
 .bold {
   font-weight: 700;
 }

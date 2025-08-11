@@ -1,0 +1,17 @@
+.quiz-results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.incorrect-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.session-link-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-5);
+}

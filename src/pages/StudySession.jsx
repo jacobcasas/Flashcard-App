@@ -44,10 +44,10 @@ function StudySession () {
         } else {
             return (
                 <div className="incorrect-card-list">
-                    <h2>Cards you <br />missed:</h2>
+                    <h2 className="color-attention">Cards you <br />missed:</h2>
                     <ol>
                         {incorrectCount.map(card => (
-                            <li key={card.id}>{card.front}/{card.back}</li>
+                            <li key={card.id}>{card.front} / {card.back}</li>
                         ))}
                     </ol>
                 </div>
@@ -61,7 +61,7 @@ function StudySession () {
     if (isSessionComplete) {
         return (
             <CompleteSession 
-                score={`${correctCount}/${deck.cards.length}`}
+                score={`${correctCount}/${deck.cards.length} | ${((correctCount/deck.cards.length) * 100).toFixed(1)}%`}
                 incorrect={determineResultMessage()}
             />
         )
