@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getDecks, saveDecks } from "../utils/storage";
 import { useDeck } from "../hooks/useDeck";
 import '../styles/pages/studysession.css';
+import CompleteSession from "./CompleteSession";
 
 function StudySession () {
     const { deckId } = useParams();
@@ -37,11 +38,32 @@ function StudySession () {
         }
     }
 
+    const determineResultMessage = () => {
+        if (correctCount === deck.cards.length) {
+            return <h2>You got 100%!</h2>
+        } else {
+            return (
+                <div className="incorrect-card-list">
+                    <h2>Cards you <br />missed:</h2>
+                    <ol>
+                        {incorrectCount.map(card => (
+                            <li key={card.id}>{card.front}/{card.back}</li>
+                        ))}
+                    </ol>
+                </div>
+            )
+                
+        }
+    }
+
     if (!deck) return <p>Deck not found...</p>
 
     if (isSessionComplete) {
         return (
-            <h1>Hello World!</h1>
+            <CompleteSession 
+                score={`${correctCount}/${deck.cards.length}`}
+                incorrect={determineResultMessage()}
+            />
         )
     }
     
@@ -69,10 +91,9 @@ function StudySession () {
                 <div className="correct-prompt">
                     <h5>Did you guess correctly?</h5>
                     <div className="prompt-buttons">
-                        <Button label="X" type="attention" onclick={() => handleCorrectAnswer()}/>
-                        <Button label="&#x2713;" type="success" onclick={() => handleIncorrectAnswer()}/>
-                    </div>
-                    
+                        <Button label="X" type="attention" onclick={() => handleIncorrectAnswer()}/>
+                        <Button label="&#x2713;" type="success" onclick={() => handleCorrectAnswer()}/>
+                    </div>               
                 </div>
                 
             </div>
