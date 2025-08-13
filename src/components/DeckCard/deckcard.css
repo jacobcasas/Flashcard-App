@@ -1,6 +1,7 @@
 .deck-card {
-    width: 150px;
-    height: 150px;
+    position: relative;
+    width: 200px;
+    height: 200px;
     min-width: 150px;
     max-height: 150px;
     background-color: var(--color-gray-800);
@@ -15,7 +16,7 @@
 }
 
 .deck-card > h4 {
-    max-width: 130px;
+    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

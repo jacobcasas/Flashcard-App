@@ -9,6 +9,12 @@ button {
   box-shadow: 0 4px rgb(0, 0, 0);
 }
 
+button:disabled {
+  background-color: var(--color-gray-600);
+  color: var(--color-gray-800);
+  box-shadow: none;
+}
+
 .btn-add {
   background-color: transparent;
   border: 2px solid var(--color-gray-200);
@@ -21,11 +27,6 @@ button {
   background-color: var(--color-success);
   margin: .4rem 0;
   border-radius: var(--border-radius-xl);
-}
-
-.btn-append:disabled {
-  background-color: var(--color-gray-600);
-  color: var(--color-gray-900);
 }
 
 .btn-attention {
@@ -49,6 +50,16 @@ button {
   height: 16px;
 }
 
+.btn-close {
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--color-gray-600);
+  font-size: 1.23rem;
+  position: absolute;
+  top: var(--spacing-1);
+  right: 0;
+}
+
 .btn-neutral {
   background-color: var(--color-neutral);
 }
@@ -63,6 +74,11 @@ button {
 }
 
 .btn-trash {
+  background-color: transparent;
+  box-shadow: unset;
+}
+
+.btn-trash-dash {
   background-color: transparent;
   box-shadow: unset;
 }

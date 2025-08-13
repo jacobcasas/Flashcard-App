@@ -1,21 +1,26 @@
 import '../styles/pages/dashboard.css';
 import Button from '../components/Button/Button';
 import DeckCard from '../components/DeckCard/DeckCard';
+import SetUser from './SetUser';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 
 function Dashboard () {
-    const user = "jake";
     const today = new Date().getDay();
     
     const getCategory = localStorage.getItem("categories");
     const getDeck = localStorage.getItem("decks");
     const categoryHeading = JSON.parse(getCategory || "[]");
     const deckCardDisplay = JSON.parse(getDeck || "[]");
+    const getUser = JSON.parse(localStorage.getItem("user") || {});
 
+    
     const [selectedDeck, setSelectedDeck] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [isScrollable, setIsScrollable] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(true);
+
 
     useEffect(() => {
         if (!isScrollable) {
@@ -67,20 +72,48 @@ function Dashboard () {
     const handleDeckSelection = (deck) => {
         setSelectedDeck(deck);
         setIsScrollable(false);
+        if (deck.cards.length === 0) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
     };
 
+    const handleCategorySelection = (cat) => {
+        setSelectedCategory(cat);
+        setIsScrollable(false);
+    }
+ 
     const handleCloseDeckSelection = () => {
         setSelectedDeck(null);
+        setSelectedCategory(null);
         setIsScrollable(true);
     };
 
-    return (
-        <>
+    const handleDeleteDeck = (deckId) => {
+        const filteredDecks = deckCardDisplay.filter(deck => deck.id !== deckId);
+
+        localStorage.setItem("decks", JSON.stringify(filteredDecks));
+
+        handleCloseDeckSelection();
+    }
+
+    const handleDeleteCategory = (catId) => {
+        const filteredCategories = categoryHeading.filter(cat => cat !== catId);
+        localStorage.setItem("categories", JSON.stringify(filteredCategories));
+
+        handleCloseDeckSelection();
+    }
+
+    if (getUser.name === "") {
+        return <SetUser />
+    } else {
+        return (
             <div className="page-container">
                 <div className="hero-section">
                     <div className="greeting">
                         <p className="indexed | bold"><i>Indexed</i></p>
-                        <h2 className='color-gray-400'>welcome back, <br /><span className='username | color-gray-50'>{user}</span></h2>
+                        <h2 className='color-gray-400'>welcome back, <br /><span className='username | color-gray-50'>{getUser.name}</span></h2>
                     </div>
                     <div className="tracker-and-msg">
                         <div className='weekly-tracker-container'>
@@ -122,7 +155,7 @@ function Dashboard () {
                 <div className="deck-section">
                     <h2 className="color-gray-50">Your Decks</h2>
                     <div className="deck-category-container">
-                       {categoryHeading.length === 0 ? (
+                        {categoryHeading.length === 0 ? (
                             <p>You have no decks, click on the button to create one.</p>
                         ) : (
                             categoryHeading.map(cat => {
@@ -131,7 +164,14 @@ function Dashboard () {
                                 if (decksInCategories.length > 0) {
                                     return (
                                         <div key={cat} className='deck-category'>
-                                            <h3>{cat}</h3>
+                                            <div className="heading-and-delete-category">
+                                               <h3>{cat}</h3> 
+                                               <Button 
+                                                    label={<img src="/src/assets/trash-can.svg" />}
+                                                    type="trash-dash"
+                                                    onclick={() => handleCategorySelection(cat)}
+                                                />
+                                            </div>
                                             <div className='deck-row'>
                                             {decksInCategories.map(deck => (
                                                     <DeckCard
@@ -148,13 +188,21 @@ function Dashboard () {
                                 } else {
                                     return (
                                         <div key={cat} className='deck-category'>
-                                            <h3>{cat}</h3>
-                                            <p>You dont have any cards in {cat}. Click the button to make a deck.</p>
+                                            <div className="heading-and-delete-category">
+                                               <h3>{cat}</h3> 
+                                               <Button 
+                                                    label={<img src="/src/assets/trash-can.svg" />}
+                                                    type="trash-dash"
+                                                    onclick={() => handleCategorySelection(cat)}
+                                                />
+                                            </div>
+                                            
+                                            <p> You dont have any cards in {cat}. Click the "add new" to make a deck.</p>
                                         </div>
                                     )
                                 }
                             })
-                       )}
+                        )}
                     </div>
                     <Link to="/deckcreation">
                         <Button label="add new" type="confirm" />
@@ -163,6 +211,7 @@ function Dashboard () {
                     {selectedDeck && (
                         <div className="popup-background">
                             <div className="edit-deck-popup">
+                                <Button label="X" type="close" onclick={() => handleCloseDeckSelection()}/>
                                 <h2>{selectedDeck.title}</h2>
                                 <p>{selectedDeck.description}</p>
                                 <div className="popup-buttons">
@@ -170,21 +219,41 @@ function Dashboard () {
                                         <Button label="edit" type="neutral"/>
                                     </Link>
                                     <Link to={`/studysession/${selectedDeck.id}`}>
-                                        <Button label="study" type="neutral"/>
+                                        <Button 
+                                            label="study" 
+                                            type="neutral" 
+                                            disabled={isDisabled}
+                                        />
+                                        
                                     </Link>
                                 </div>
                                 <Button 
-                                    label="close" 
+                                    label="Delete" 
                                     type="attention" 
-                                    onclick={() => handleCloseDeckSelection()}
+                                    onclick={() => handleDeleteDeck(selectedDeck.id)}
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {selectedCategory && (
+                        <div className="popup-background">
+                            <div className="edit-deck-popup">
+                                <Button label="X" type="close" onclick={() => handleCloseDeckSelection()}/>
+                                <h3>Delete {selectedCategory}?</h3>
+                                <Button 
+                                    label="Delete"
+                                    type="attention"
+                                    onclick={() => handleDeleteCategory(selectedCategory)}
                                 />
                             </div>
                         </div>
                     )}
                 </div>
             </div>
-        </>
-    )
+        )
+    }
+    
 }
 
 export default Dashboard
