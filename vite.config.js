@@ -14,5 +14,4 @@ export default defineConfig({
     allowedHosts: ['*'],
     cors: true
   },
-  base: './'
 });

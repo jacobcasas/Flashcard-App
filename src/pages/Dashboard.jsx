@@ -13,7 +13,7 @@ function Dashboard () {
     const getDeck = localStorage.getItem("decks");
     const categoryHeading = JSON.parse(getCategory || "[]");
     const deckCardDisplay = JSON.parse(getDeck || "[]");
-    const getUser = JSON.parse(localStorage.getItem("user") || {});
+    const getUser = JSON.parse(localStorage.getItem("user") || "{}");
 
     
     const [selectedDeck, setSelectedDeck] = useState(null);

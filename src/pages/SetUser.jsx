@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Button from "../components/Button/Button";
 
-function SetUser() {
+function SetUser({ onSetUser }) {
     const [nameInput, setNameInput] = useState("");
 
     const handleSetName = () => {
-        localStorage.setItem('user', JSON.stringify({ name: nameInput}))
+        const newUser = { name: nameInput}
+        localStorage.setItem('user', JSON.stringify(newUser));
+        onSetUser(newUser);
     }
 
     return (
