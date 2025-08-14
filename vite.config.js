@@ -10,6 +10,9 @@ export default defineConfig({
     setupFiles: './src/setupTests.js',
   },
   server: {
-    allowedHosts: ['*']
-  }
+    host: true,
+    allowedHosts: ['*'],
+    cors: true
+  },
+  base: './'
 });
