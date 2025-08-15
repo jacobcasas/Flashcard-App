@@ -20,6 +20,14 @@ function Dashboard () {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isScrollable, setIsScrollable] = useState(true);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [theme, setTheme] = useState(() => {
+        const storedTheme = localStorage.getItem("theme");
+        return storedTheme ? JSON.parse(storedTheme) : "true";
+    });
+
+    useEffect(() => {
+        localStorage.setItem("theme", theme);
+    }, [theme]);
 
 
     useEffect(() => {
@@ -105,12 +113,31 @@ function Dashboard () {
         handleCloseDeckSelection();
     }
 
+    const toggleTheme = () => {
+        setTheme(!theme);
+
+        if (theme) {
+            document.body.classList.add('light-mode');
+        } else {
+            document.body.classList.remove('light-mode');
+        }
+    }
+
     if (getUser.name === "") {
         return <SetUser />
     } else {
         return (
             <div className="page-container">
                 <div className="hero-section">
+                    <Button 
+                        label={ theme 
+                                ? <img src="src/assets/light_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" /> 
+                                : <img src="src/assets/dark_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" />
+                            }
+                        type="theme-switcher"
+                        onclick={() => toggleTheme()}
+                    />
+
                     <div className="greeting">
                         <p className="indexed | bold"><i>Indexed</i></p>
                         <h2 className='color-gray-400'>welcome back, <br /><span className='username | color-gray-50'>{getUser.name}</span></h2>
@@ -166,11 +193,6 @@ function Dashboard () {
                                         <div key={cat} className='deck-category'>
                                             <div className="heading-and-delete-category">
                                                <h3>{cat}</h3> 
-                                               <Button 
-                                                    label={<img src="/src/assets/trash-can.svg" />}
-                                                    type="trash-dash"
-                                                    onclick={() => handleCategorySelection(cat)}
-                                                />
                                             </div>
                                             <div className='deck-row'>
                                             {decksInCategories.map(deck => (

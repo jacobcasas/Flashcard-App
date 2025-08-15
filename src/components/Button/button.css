@@ -74,6 +74,14 @@ button:disabled {
   background-color: var(--color-confirm);
 }
 
+.btn-theme-switcher {
+  position: absolute;
+  top: 10%;
+  right: 0%;
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+}
+
 .btn-trash {
   background-color: transparent;
   box-shadow: unset;
