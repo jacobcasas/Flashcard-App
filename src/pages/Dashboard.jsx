@@ -20,7 +20,11 @@ function Dashboard () {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isScrollable, setIsScrollable] = useState(true);
     const [isDisabled, setIsDisabled] = useState(true);
-    const [goalsSet, setGoalsSet] = useState(true);
+    const [minutes, setMinutes] = useState(() => {
+        const storedTimer = localStorage.getItem("timer");
+        return storedTimer ? JSON.parse(storedTimer) : 0;
+    });
+    const [minuteGoal, setMinuteGoal] = useState(10);
     const [theme, setTheme] = useState(() => {
         const storedTheme = localStorage.getItem("theme");
         return storedTheme ? JSON.parse(storedTheme) : "true";
@@ -44,8 +48,22 @@ function Dashboard () {
     }, [isScrollable]);
 
     useEffect(() => {
-        console.log(deckCardDisplay);
-    }, [deckCardDisplay])
+        const interval = setInterval(() => {
+            setMinutes(prev => {
+                if (prev + 1 >= minuteGoal) {
+                    clearInterval(interval);
+                    return minuteGoal;
+                }
+                return prev + 1;
+            });
+        }, 60_000);
+
+        return () => clearInterval(interval);
+    }, [minuteGoal]);
+
+    useEffect(() => {
+        localStorage.setItem("timer", minutes);
+    }, [minutes])
 
     const dayAndMarker = [
         {
@@ -77,7 +95,7 @@ function Dashboard () {
             day: "S"
         }
     ];
-
+//#region functions
     const handleDeckSelection = (deck) => {
         setSelectedDeck(deck);
         setIsScrollable(false);
@@ -124,6 +142,11 @@ function Dashboard () {
         }
     }
 
+    const removeTimerTest = () => {
+        localStorage.removeItem("timer");
+        location.reload();
+    }
+//#endregion
     if (getUser.name === "") {
         return <SetUser />
     } else {
@@ -167,38 +190,22 @@ function Dashboard () {
                         <p className='streak-msg'>You're on a <span className='color-success'><i>1 week</i></span> streak. Keep it up!</p>
                     </div>
 
-                    { goalsSet 
-                        ? (
-                            <Link to="/goalsetter">
-                                <div className="goal-info-deck">
-                                    <div className="goal-category">
-                                        <p>Mastered Cards</p>
-                                        <p className="sm-text color-gray-200">10</p>
-                                    </div>
-                                    <div className="goal-category">
-                                        <p>Minutes Studied</p>
-                                        <p className="sm-text color-gray-200">5m/10m</p>
-                                    </div>
-                                    <div className="goal-category">
-                                        <p>Best Accuracy</p>
-                                        <p className="sm-text color-gray-200">80%</p>
-                                    </div>
-                                </div>
-                            </Link>
-                            
-                        )
-                        : (
-                            <Link to="/goalsetter">
-                                <div className="goal-info-deck-unset">
-                                    <h5>Goal Deck</h5>
-                                    <p className="sm-text">Click here to set your goals</p>
-                                </div>
-                            </Link>
-                            
-                        )
-                    }
-                    
+                    <div className="goal-info-deck">
+                        <div className="goal-category">
+                            <p>Mastered <br />Cards</p>
+                            <p className="sm-text color-gray-200">0</p>
+                        </div>
+                        <div className="goal-category">
+                            <p>Mins Studied</p>
+                            <p className={`sm-text ${minutes === minuteGoal ? 'color-success' : 'color-gray-200'}`}>{minutes}m/{minuteGoal}m</p>
+                        </div>
+                        <div className="goal-category">
+                            <p>PB %</p>
+                            <p className="sm-text color-gray-200">80%</p>
+                        </div>
+                    </div>
                 </div>
+
                 <div className="deck-section">
                     <h2 className="color-gray-50">Your Decks</h2>
                     <div className="deck-category-container">
@@ -249,10 +256,6 @@ function Dashboard () {
                             <Button label="add new" type="confirm" />
                         </Link>
                     </div>
-
-                    <div className="session-history-section">
-                        <h2>Study Session History</h2>
-                    </div>
                     
 
                     {selectedDeck && (
@@ -295,6 +298,14 @@ function Dashboard () {
                             </div>
                         </div>
                     )}
+                </div>
+                <div className="session-history-section">
+                        <h2>Study Session History</h2>
+                        <Button 
+                            label="reset timer"
+                            type="attention"
+                            onclick={() => removeTimerTest()}
+                        />
                 </div>
             </div>
         )
