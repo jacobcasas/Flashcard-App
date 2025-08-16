@@ -49,7 +49,8 @@ function EditDeck () {
         const editedCard = {
             id: crypto.randomUUID(),
             front: frontCard,
-            back: backCard
+            back: backCard,
+            masteryCount: 0,
         }
 
         let updatedCards;
@@ -129,7 +130,7 @@ function EditDeck () {
                         </div>
                         <Button 
                             label={<img src="/src/assets/trash-can.svg" />} 
-                            type="trash"
+                            type="transparent"
                             onclick={() => handleDeleteCardButton(card.id)}
                         />
                     </article>

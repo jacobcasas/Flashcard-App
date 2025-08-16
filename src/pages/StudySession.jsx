@@ -16,9 +16,32 @@ function StudySession () {
 
     useEffect(() => {
         setCurrentCardIndex(0);
-    }, [deck]);
+    }, [deckId]);
+
+    useEffect(() => {
+        console.log(deck);
+    }, [deck])
 
     const handleCorrectAnswer = () => {
+        const editedCard = {
+            ...deck.cards[currentCardIndex],
+            masteryCount: deck.cards[currentCardIndex].masteryCount + 1,
+            mastered: deck.cards[currentCardIndex].masteryCount + 1 >= 5,
+            masteredOn: deck.cards[currentCardIndex].masteryCount + 1 >= 5 
+                ? new Date().toISOString().split("T")[0]
+                : deck.cards[currentCardIndex].masteredOn || null
+        }
+
+        const updatedCards = [...deck.cards];
+        updatedCards[currentCardIndex] = editedCard;
+
+        const updatedDeck = { ...deck, cards: updatedCards };
+        setDeck(updatedDeck);
+
+        const allDecks = getDecks();
+        const updatedDecks = allDecks.map(d => d.id === deck.id ? updatedDeck : d);
+        saveDecks(updatedDecks);
+
         setCorrectCount(correctCount + 1);
         goToNextCard();
     }

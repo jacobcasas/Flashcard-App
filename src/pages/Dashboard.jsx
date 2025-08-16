@@ -9,12 +9,15 @@ import { useEffect, useState } from 'react';
 function Dashboard () {
     const today = new Date().getDay();
     
+    
     const getCategory = localStorage.getItem("categories");
     const getDeck = localStorage.getItem("decks");
     const categoryHeading = JSON.parse(getCategory || "[]");
     const deckCardDisplay = JSON.parse(getDeck || "[]");
     const getUser = JSON.parse(localStorage.getItem("user") || "{}");
 
+    const isToday = new Date().toISOString().split("T")[0];
+    const masteredToday = deckCardDisplay.flatMap(deck => deck.cards).filter(card => card.masteredOn === isToday).length
     
     const [selectedDeck, setSelectedDeck] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -193,7 +196,7 @@ function Dashboard () {
                     <div className="goal-info-deck">
                         <div className="goal-category">
                             <p>Mastered <br />Cards</p>
-                            <p className="sm-text color-gray-200">0</p>
+                            <p className="sm-text color-gray-200">{masteredToday}</p>
                         </div>
                         <div className="goal-category">
                             <p>Mins Studied</p>
