@@ -68,7 +68,7 @@ function DeckCreation () {
                 <h1 className='color-gray-50'>Create A Deck</h1>
                 <form className='create-deck-form'>
                     <div className="form-element">
-                        <label htmlFor="category">Category</label>
+                        <legend htmlFor="category">Category</legend>
                         <div className="category-buttons-container">
                             {categoryList.map(category => (
                                 <Button 
@@ -93,7 +93,7 @@ function DeckCreation () {
                         </div>
                         
                         <div className={`create-category ${!visibility ? 'hidden' : ''}`}>
-                            <label htmlFor="category-list">Create a new category</label>
+                            <legend htmlFor="category-list">Create a new category</legend>
                             <div className="cc-input-and-button">
                                 <input
                                  name='category-list' 
@@ -112,7 +112,7 @@ function DeckCreation () {
                         </div>
                     </div>
                     <div className="form-element">
-                        <label htmlFor="title">Title</label>
+                        <legend htmlFor="title">Title</legend>
                         <input
                          type="text" 
                          name="title" 
@@ -123,7 +123,7 @@ function DeckCreation () {
                           />
                     </div>
                     <div className="form-element">
-                        <label htmlFor="description">Desciption</label>
+                        <legend htmlFor="description">Desciption</legend>
                         <textarea
                          name="desciption" 
                          id="deck-description"

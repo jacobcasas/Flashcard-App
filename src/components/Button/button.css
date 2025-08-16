@@ -82,12 +82,7 @@ button:disabled {
   color: var(--color-gray-900);
 }
 
-.btn-trash {
-  background-color: transparent;
-  box-shadow: unset;
-}
-
-.btn-trash-dash {
+.btn-transparent {
   background-color: transparent;
   box-shadow: unset;
 }

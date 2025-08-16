@@ -10,7 +10,7 @@
     gap: var(--spacing-2);
 }
 
-.form-element label {
+.form-element legend {
     font-size: 2.488rem;
     font-weight: 700;
     color: var(--color-gray-200);
