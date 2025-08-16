@@ -16,11 +16,6 @@
     color: var(--color-gray-200);
 }
 
-.create-category label {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-gray-600);
-}
 
 .category-buttons-container {
     display: grid;

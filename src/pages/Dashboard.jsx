@@ -181,7 +181,7 @@ function Dashboard () {
                                     </div>
                                     <div className="goal-category">
                                         <p>Best Accuracy</p>
-                                        <p className="sm-text color-gray-200">18/20</p>
+                                        <p className="sm-text color-gray-200">80%</p>
                                     </div>
                                 </div>
                             </Link>
@@ -234,7 +234,7 @@ function Dashboard () {
                                                <h3>{cat}</h3> 
                                                <Button 
                                                     label={<img src="/src/assets/trash-can.svg" />}
-                                                    type="trash-dash"
+                                                    type="transparent"
                                                     onclick={() => handleCategorySelection(cat)}
                                                 />
                                             </div>
@@ -245,10 +245,15 @@ function Dashboard () {
                                 }
                             })
                         )}
+                        <Link to="/deckcreation">
+                            <Button label="add new" type="confirm" />
+                        </Link>
                     </div>
-                    <Link to="/deckcreation">
-                        <Button label="add new" type="confirm" />
-                    </Link>
+
+                    <div className="session-history-section">
+                        <h2>Study Session History</h2>
+                    </div>
+                    
 
                     {selectedDeck && (
                         <div className="popup-background">
