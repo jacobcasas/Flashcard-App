@@ -2,7 +2,9 @@ import '../styles/pages/goalsetter.css'
 
 function GoalSetter () {
     return(
-        <h1>Hello World!</h1>
+        <div className="page-container">
+            <h1>Hello World!</h1>
+        </div>
     )
     
 }

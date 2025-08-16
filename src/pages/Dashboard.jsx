@@ -172,16 +172,16 @@ function Dashboard () {
                             <Link to="/goalsetter">
                                 <div className="goal-info-deck">
                                     <div className="goal-category">
-                                        <p>focus</p>
-                                        <p className="sm-text">"Math"</p>
+                                        <p>Mastered Cards</p>
+                                        <p className="sm-text color-gray-200">10</p>
                                     </div>
                                     <div className="goal-category">
-                                        <p>time/goal</p>
-                                        <p className="sm-text">5m/10m</p>
+                                        <p>Minutes Studied</p>
+                                        <p className="sm-text color-gray-200">5m/10m</p>
                                     </div>
                                     <div className="goal-category">
-                                        <p>PB</p>
-                                        <p className="sm-text">18/20</p>
+                                        <p>Best Accuracy</p>
+                                        <p className="sm-text color-gray-200">18/20</p>
                                     </div>
                                 </div>
                             </Link>

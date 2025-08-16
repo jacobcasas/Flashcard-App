@@ -72,11 +72,10 @@
     display: flex;
     background-color: var(--color-gray-800);
     justify-content: space-between;
-    width: 300px;
-    max-width: 400px;
+    max-width: 450px;
     align-items: center;
     text-align: center;
-    padding: 1rem 2rem;
+    padding: 1.5rem 2rem;
     border-radius: var(--border-radius-lg);
     margin: 0 auto;
     height: fit-content;
@@ -134,7 +133,8 @@
     overflow-x: auto;
     margin-left: -1rem;
     padding: 0 1rem;
-    width: 100vw;
+    width: 100%;
+    overflow-x: scroll;
 }
 
 .edit-deck-popup {
