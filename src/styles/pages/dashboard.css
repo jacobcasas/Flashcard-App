@@ -83,6 +83,16 @@
     box-shadow: 0 5px 8px rgba(14, 14, 14, 0.3);
 }
 
+.goal-info-deck-unset {
+    background-color: var(--color-gray-800);
+    width: 300px;
+    max-width: 400px;
+    text-align: center;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius-lg);
+    margin: 0 auto;
+}
+
 .goal-category {
     display: flex;
     flex-direction: column;

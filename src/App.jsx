@@ -3,9 +3,11 @@ import DeckCreation from './pages/DeckCreation';
 import StudySession from './pages/StudySession';
 import EditDeck from './pages/EditDeck';
 import SetUser from './pages/SetUser';
+import GoalSetter from './pages/GoalSetter';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,6 +29,7 @@ function App() {
       <Route path="/deckcreation" element={<DeckCreation />}></Route>
       <Route path="/studysession/:deckId" element={<StudySession />}></Route>
       <Route path="/editdeck/:deckId" element={<EditDeck />}></Route>
+      <Route path="/goalsetter" element={<GoalSetter />}></Route>
     </Routes>
   );
 }

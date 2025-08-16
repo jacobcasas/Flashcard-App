@@ -20,6 +20,7 @@ function Dashboard () {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isScrollable, setIsScrollable] = useState(true);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [goalsSet, setGoalsSet] = useState(true);
     const [theme, setTheme] = useState(() => {
         const storedTheme = localStorage.getItem("theme");
         return storedTheme ? JSON.parse(storedTheme) : "true";
@@ -142,6 +143,7 @@ function Dashboard () {
                         <p className="indexed | bold"><i>Indexed</i></p>
                         <h2 className='color-gray-400'>welcome back, <br /><span className='username | color-gray-50'>{getUser.name}</span></h2>
                     </div>
+
                     <div className="tracker-and-msg">
                         <div className='weekly-tracker-container'>
                         {dayAndMarker.map((item, index) => {
@@ -164,20 +166,38 @@ function Dashboard () {
                         </div>
                         <p className='streak-msg'>You're on a <span className='color-success'><i>1 week</i></span> streak. Keep it up!</p>
                     </div>
-                    <div className="goal-info-deck">
-                        <div className="goal-category">
-                            <p>focus</p>
-                            <p className="sm-text">"Math"</p>
-                        </div>
-                        <div className="goal-category">
-                            <p>time/goal</p>
-                            <p className="sm-text">5m/10m</p>
-                        </div>
-                        <div className="goal-category">
-                            <p>PB</p>
-                            <p className="sm-text">18/20</p>
-                        </div>
-                    </div>
+
+                    { goalsSet 
+                        ? (
+                            <Link to="/goalsetter">
+                                <div className="goal-info-deck">
+                                    <div className="goal-category">
+                                        <p>focus</p>
+                                        <p className="sm-text">"Math"</p>
+                                    </div>
+                                    <div className="goal-category">
+                                        <p>time/goal</p>
+                                        <p className="sm-text">5m/10m</p>
+                                    </div>
+                                    <div className="goal-category">
+                                        <p>PB</p>
+                                        <p className="sm-text">18/20</p>
+                                    </div>
+                                </div>
+                            </Link>
+                            
+                        )
+                        : (
+                            <Link to="/goalsetter">
+                                <div className="goal-info-deck-unset">
+                                    <h5>Goal Deck</h5>
+                                    <p className="sm-text">Click here to set your goals</p>
+                                </div>
+                            </Link>
+                            
+                        )
+                    }
+                    
                 </div>
                 <div className="deck-section">
                     <h2 className="color-gray-50">Your Decks</h2>
@@ -246,7 +266,6 @@ function Dashboard () {
                                             type="neutral" 
                                             disabled={isDisabled}
                                         />
-                                        
                                     </Link>
                                 </div>
                                 <Button 
