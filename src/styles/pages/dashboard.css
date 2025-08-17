@@ -123,7 +123,7 @@
     align-items: center;
     overflow-x: auto;
     margin-left: -1rem;
-    padding: 0 1rem;
+    padding: 1rem;
     width: 100%;
     overflow-x: scroll;
 }

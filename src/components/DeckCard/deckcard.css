@@ -9,6 +9,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 4px rgba(28, 28, 28, .4);
     padding: 1rem;
     border-radius: var(--border-radius-lg);
     text-align: center;

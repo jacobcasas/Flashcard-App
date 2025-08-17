@@ -84,7 +84,7 @@ function StudySession () {
     if (isSessionComplete) {
         return (
             <CompleteSession 
-                score={`${correctCount}/${deck.cards.length} | ${((correctCount/deck.cards.length) * 100).toFixed(1)}%`}
+                score={`${correctCount}/${deck.cards.length} | ${((correctCount/deck.cards.length) * 100).toFixed(0)}%`}
                 incorrect={determineResultMessage()}
             />
         )

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 function Dashboard () {
     const today = new Date().getDay();
+    const todaysDate = new Date().getDate();
     
     
     const getCategory = localStorage.getItem("categories");
@@ -19,6 +20,7 @@ function Dashboard () {
     const isToday = new Date().toISOString().split("T")[0];
     const masteredToday = deckCardDisplay.flatMap(deck => deck.cards).filter(card => card.masteredOn === isToday).length
     
+    
     const [selectedDeck, setSelectedDeck] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isScrollable, setIsScrollable] = useState(true);
@@ -28,14 +30,36 @@ function Dashboard () {
         return storedTimer ? JSON.parse(storedTimer) : 0;
     });
     const [minuteGoal, setMinuteGoal] = useState(10);
-    const [theme, setTheme] = useState(() => {
-        const storedTheme = localStorage.getItem("theme");
-        return storedTheme ? JSON.parse(storedTheme) : "true";
-    });
+    const [theme, setTheme] = useState("");
+
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
+    }
 
     useEffect(() => {
-        localStorage.setItem("theme", theme);
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    }, []);
+
+    useEffect(() => {
+        document.body.className = theme;
+        localStorage.setItem("theme", theme)
     }, [theme]);
+
+    useEffect(() => {
+        const now = new Date();
+        const msToMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0) - now;
+
+        const timeout = setTimeout(() => {
+            resetGoalDeck();
+
+            setInterval(resetGoalDeck, 24 * 60 * 60 * 1000);
+        }, msToMidnight);
+
+        return () => clearTimeout(timeout);
+    }, [])
 
 
     useEffect(() => {
@@ -98,7 +122,24 @@ function Dashboard () {
             day: "S"
         }
     ];
+
 //#region functions
+    const resetGoalDeck = () => {
+        localStorage.removeItem("timer");
+        
+        const storedDecks = JSON.parse(localStorage.getItem("decks") || "[]");
+
+        const resetDecks = storedDecks.map(deck => ({
+            ...deck,
+            cards: deck.cards.map(card => ({
+                ...card,
+                masteredOn: null
+            }))
+        }))
+
+        localStorage.setItem("decks", JSON.stringify(resetDecks));
+    }
+
     const handleDeckSelection = (deck) => {
         setSelectedDeck(deck);
         setIsScrollable(false);
@@ -135,20 +176,8 @@ function Dashboard () {
         handleCloseDeckSelection();
     }
 
-    const toggleTheme = () => {
-        setTheme(!theme);
+    
 
-        if (theme) {
-            document.body.classList.add('light-mode');
-        } else {
-            document.body.classList.remove('light-mode');
-        }
-    }
-
-    const removeTimerTest = () => {
-        localStorage.removeItem("timer");
-        location.reload();
-    }
 //#endregion
     if (getUser.name === "") {
         return <SetUser />
@@ -157,9 +186,9 @@ function Dashboard () {
             <div className="page-container">
                 <div className="hero-section">
                     <Button 
-                        label={ theme 
-                                ? <img src="src/assets/light_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" /> 
-                                : <img src="src/assets/dark_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" />
+                        label={ theme === "light"
+                                ? <img src="src/assets/dark_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" /> 
+                                : <img src="src/assets/light_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" />
                             }
                         type="theme-switcher"
                         onclick={() => toggleTheme()}
@@ -304,11 +333,6 @@ function Dashboard () {
                 </div>
                 <div className="session-history-section">
                         <h2>Study Session History</h2>
-                        <Button 
-                            label="reset timer"
-                            type="attention"
-                            onclick={() => removeTimerTest()}
-                        />
                 </div>
             </div>
         )
