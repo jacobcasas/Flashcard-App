@@ -1,12 +1,23 @@
-# React + Vite
+# Indexed
+[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://makeapullrequest.com)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Indexed is a digital flash card web app that allows users to save card decks and tracks their weekly progress.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+- ✨ Deck Creation – Users can create learning subject categories, specified decks, and cards for the deck. 
+- 📚 Study Sessions – After users create their deck, they can study these decks and see direct results.  
+- ✅ Goal Tracking - To get user's inspired, Indexed tracks your daily time usage, cards you've mastered, and your best percentage that day.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/jacobcasas/Indexed.git
+
+# Install dependencies
+npm install
+
