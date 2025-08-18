@@ -13,14 +13,37 @@ function StudySession () {
     const [correctCount, setCorrectCount] = useState(0);
     const [incorrectCount, setincorrectCount] = useState([]);
     const [isSessionComplete, setIsSessionComplete] = useState(false);
+    const [testResults, setTestResults] = useState(() => {
+        const storedResults = localStorage.getItem("results");
+        return storedResults ? JSON.parse(storedResults) : [];
+    })
+
+    useEffect(() => {
+        localStorage.setItem("results", JSON.stringify(testResults));
+    }, [testResults]);
 
     useEffect(() => {
         setCurrentCardIndex(0);
     }, [deckId]);
 
     useEffect(() => {
-        console.log(deck);
-    }, [deck])
+        if (isSessionComplete) {
+            const newResult = {
+                id: crypto.randomUUID(),
+                title: deck.title,
+                score: `${correctCount} / ${deck.cards.length}`,
+                percentage: Math.round((correctCount / deck.cards.length) * 100),
+                createdAt: Date.now()
+            }
+
+            setTestResults(prev => [...prev, newResult])
+        }
+        
+    }, [isSessionComplete])
+
+    useEffect(() => {
+        console.log(testResults);
+    }, [testResults])
 
     const handleCorrectAnswer = () => {
         const editedCard = {

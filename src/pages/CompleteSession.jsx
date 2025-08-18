@@ -22,10 +22,7 @@ function CompleteSession({ score, incorrect }) {
                     <Button label="Dashboard" type="neutral"/>
                 </Link>
             </div>
-
         </div>
-
-        
     )
 }
 

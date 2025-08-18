@@ -4,6 +4,7 @@ import DeckCard from '../components/DeckCard/DeckCard';
 import SetUser from './SetUser';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import TestResult from '../components/TestResult/TestResult';
 
 
 function Dashboard () {
@@ -25,12 +26,20 @@ function Dashboard () {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isScrollable, setIsScrollable] = useState(true);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [results, setResults] = useState(() => {
+        const storedResults = localStorage.getItem("results");
+        return storedResults ? JSON.parse(storedResults) : [];
+    })
     const [minutes, setMinutes] = useState(() => {
         const storedTimer = localStorage.getItem("timer");
         return storedTimer ? JSON.parse(storedTimer) : 0;
     });
     const [minuteGoal, setMinuteGoal] = useState(10);
     const [theme, setTheme] = useState("");
+
+    const topPercentage = results.length > 0 
+        ? Math.max(...results.map(result => result.percentage))
+        : 0;
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
@@ -42,6 +51,12 @@ function Dashboard () {
             setTheme(savedTheme);
         }
     }, []);
+
+    useEffect(() => {
+        if (results.length > 5) {
+            setResults(prev => prev.slice(-5));
+        }
+    }, [results])
 
     useEffect(() => {
         document.body.className = theme;
@@ -126,6 +141,7 @@ function Dashboard () {
 //#region functions
     const resetGoalDeck = () => {
         localStorage.removeItem("timer");
+        localStorage.removeItem("results");
         
         const storedDecks = JSON.parse(localStorage.getItem("decks") || "[]");
 
@@ -203,7 +219,7 @@ function Dashboard () {
                         <div className='weekly-tracker-container'>
                         {dayAndMarker.map((item, index) => {
                             const isToday = item.id === today;
-                            const isComplete = true; //placeholder logic
+                            const isComplete = minutes === minuteGoal; //placeholder logic
                             let streakLevel;
                             if (isToday && isComplete) {
                                 streakLevel = "2";
@@ -233,7 +249,7 @@ function Dashboard () {
                         </div>
                         <div className="goal-category">
                             <p>PB %</p>
-                            <p className="sm-text color-gray-200">80%</p>
+                            <p className="sm-text color-gray-200">{topPercentage}%</p>
                         </div>
                     </div>
                 </div>
@@ -331,8 +347,17 @@ function Dashboard () {
                         </div>
                     )}
                 </div>
+
                 <div className="session-history-section">
                         <h2>Study Session History</h2>
+                        {results.length === 0 ? (
+                            <p>You currently have no results recorded. Study a deck to see results.</p>
+                        ) : (
+                            results.map(result => (
+                                <TestResult key={result.id} result={result}/>
+                            ))
+                        )}
+
                 </div>
             </div>
         )
