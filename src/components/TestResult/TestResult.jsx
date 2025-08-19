@@ -18,7 +18,13 @@ function TestResult({ result }) {
         <div className="test-result-container">
             <h3><strong>{result.title}</strong></h3>
             <p><strong>Score:</strong> {result.score}</p>
-            <p className="sm-text color-gray-200">{timeElapsed === 0 ? `just now` : `${timeElapsed}m ago`}</p>
+            {timeElapsed === 0 ? (
+                <p className="sm-text color-gray-400">just now</p>
+            ) : timeElapsed < 60 ? (
+                <p className="sm-text color-gray-400">{timeElapsed}m ago</p>
+            ) : (
+                <p className="sm-text color-gray-400">{Math.floor(timeElapsed / 60)}h ago</p>
+            )}
         </div>
     )
 }

@@ -229,7 +229,7 @@ function Dashboard () {
                             <p className="sm-text color-gray-200">{masteredToday}</p>
                         </div>
                         <div className="goal-category">
-                            <p>Mins Studied</p>
+                            <p>Mins <br />Studied</p>
                             <p className={`sm-text ${minutes === minuteGoal ? 'color-success' : 'color-gray-200'}`}>{minutes}m/{minuteGoal}m</p>
                         </div>
                         <div className="goal-category">
