@@ -5,6 +5,9 @@ import SetUser from './SetUser';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import TestResult from '../components/TestResult/TestResult';
+import TrashIcon from "../assets/trash-can.svg";
+import LightIcon from "../assets/light_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg";
+import DarkIcon from "../assets/dark_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg";
 
 
 function Dashboard () {
@@ -191,8 +194,6 @@ function Dashboard () {
         handleCloseDeckSelection();
     }
 
-    
-
 //#endregion
     if (getUser.name === "") {
         return <SetUser />
@@ -202,8 +203,8 @@ function Dashboard () {
                 <div className="hero-section">
                     <Button 
                         label={ theme === "light"
-                                ? <img src="src/assets/dark_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" /> 
-                                : <img src="src/assets/light_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" />
+                                ? <img src={DarkIcon} alt='Moon' /> 
+                                : <img src={LightIcon} alt='Sun' />
                             }
                         type="theme-switcher"
                         onclick={() => toggleTheme()}
@@ -286,7 +287,7 @@ function Dashboard () {
                                             <div className="heading-and-delete-category">
                                                <h3>{cat}</h3> 
                                                <Button 
-                                                    label={<img src="/src/assets/trash-can.svg" />}
+                                                    label={<img src={TrashIcon} alt='Delete' />}
                                                     type="transparent"
                                                     onclick={() => handleCategorySelection(cat)}
                                                 />

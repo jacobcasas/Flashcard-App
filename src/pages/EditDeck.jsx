@@ -4,6 +4,7 @@ import '../styles/pages/editdeck.css'
 import { useParams } from "react-router-dom";
 import { getDecks, saveDecks } from '../utils/storage';
 import { useDeck } from "../hooks/useDeck";
+import TrashCanIcon from "../assets/trash-can.svg";
 
 function EditDeck () {
 
@@ -129,7 +130,7 @@ function EditDeck () {
                             </ul>   
                         </div>
                         <Button 
-                            label={<img src="/src/assets/trash-can.svg" />} 
+                            label={<img src={TrashCanIcon} alt="Delete" />} 
                             type="transparent"
                             onclick={() => handleDeleteCardButton(card.id)}
                         />
