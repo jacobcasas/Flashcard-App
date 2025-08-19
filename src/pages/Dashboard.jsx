@@ -9,7 +9,6 @@ import TestResult from '../components/TestResult/TestResult';
 
 function Dashboard () {
     const today = new Date().getDay();
-    const todaysDate = new Date().getDate();
     
     
     const getCategory = localStorage.getItem("categories");
@@ -219,7 +218,7 @@ function Dashboard () {
                         <div className='weekly-tracker-container'>
                         {dayAndMarker.map((item, index) => {
                             const isToday = item.id === today;
-                            const isComplete = minutes === minuteGoal; //placeholder logic
+                            const isComplete = minutes === minuteGoal;
                             let streakLevel;
                             if (isToday && isComplete) {
                                 streakLevel = "2";
@@ -235,7 +234,6 @@ function Dashboard () {
                             );
                         })}
                         </div>
-                        <p className='streak-msg'>You're on a <span className='color-success'><i>1 week</i></span> streak. Keep it up!</p>
                     </div>
 
                     <div className="goal-info-deck">
