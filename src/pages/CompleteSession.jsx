@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import '../styles/pages/completesession.css';
 
-function CompleteSession({ score, incorrect }) {
+function CompleteSession({ score, incorrect, onRetry }) {
     return (
         <div className="page-container">
             <div className="heading-and-score">
@@ -17,7 +17,7 @@ function CompleteSession({ score, incorrect }) {
                 {incorrect}
             </div>
             <div className="session-link-buttons">
-                <Button label="Try again" type="neutral" onclick={() => location.reload()}/>
+                <Button label="Try again" type="neutral" onclick={onRetry}/>
                 <Link to='/'>
                     <Button label="Dashboard" type="neutral"/>
                 </Link>
