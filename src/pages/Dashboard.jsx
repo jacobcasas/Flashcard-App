@@ -15,16 +15,16 @@ function Dashboard () {
     const today = new Date().getDay();
     
     
-    const getCategory = localStorage.getItem("categories");
     const getDeck = localStorage.getItem("decks");
-    const categoryHeading = JSON.parse(getCategory || "[]");
     const deckCardDisplay = JSON.parse(getDeck || "[]");
     const getUser = JSON.parse(localStorage.getItem("user") || "{}");
 
     const isToday = new Date().toISOString().split("T")[0];
     const masteredToday = deckCardDisplay.flatMap(deck => deck.cards).filter(card => card.masteredOn === isToday).length
     
-    
+    const [categoryHeading, setCategoryHeading] = useState(() => 
+        JSON.parse(localStorage.getItem("categories") || "[]")
+    );
     const [selectedDeck, setSelectedDeck] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isScrollable, setIsScrollable] = useState(true);
@@ -42,7 +42,7 @@ function Dashboard () {
         : 0;
 
     const toggleTheme = () => {
-        setTheme(theme === "light" ? "dark" : "light");
+        setTheme(prev => (prev === "light" ? "dark" : "light"));
     }
 
     useEffect(() => {
@@ -56,7 +56,7 @@ function Dashboard () {
         if (results.length > 5) {
             setResults(prev => prev.slice(-5));
         }
-    }, [results])
+    }, [])
 
     useEffect(() => {
         document.body.className = theme;
@@ -64,16 +64,24 @@ function Dashboard () {
     }, [theme]);
 
     useEffect(() => {
+        const resetAtMidnight = () => {
+            resetAllGoals();
+            
+            const now = new Date();
+            const msToMidnight = 
+                new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0) - now;
+
+            timeoutId = setTimeout(resetAtMidnight, msToMidnight);
+        };
+
+        let timeoutId;
         const now = new Date();
-        const msToMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0) - now;
+        const msToMidnight = 
+            new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0) - now;
 
-        const timeout = setTimeout(() => {
-            resetGoalDeck();
+        timeoutId = setTimeout(resetAtMidnight, msToMidnight);
 
-            setInterval(resetGoalDeck, 24 * 60 * 60 * 1000);
-        }, msToMidnight);
-
-        return () => clearTimeout(timeout);
+        return () => clearTimeout(timeoutId);
     }, [])
 
 
@@ -127,7 +135,7 @@ function Dashboard () {
     ];
 
 //#region functions
-    const resetGoalDeck = () => {
+    const resetAllGoals = () => {
         localStorage.removeItem("timer");
         localStorage.removeItem("results");
         
@@ -214,8 +222,8 @@ function Dashboard () {
                             } else streakLevel = "0";
 
                             return (
-                                <div className="day-and-marker">
-                                    <p key={index}>{item.day}</p>
+                                <div key={index} className="day-and-marker">
+                                    <p>{item.day}</p>
                                     <div className={`marker mkr-${streakLevel} ${isToday ? 'today' : ''}`}></div>
                                 </div>
                             );

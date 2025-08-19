@@ -3,7 +3,10 @@ import { createContext, useState, useEffect } from "react";
 export const TimerContext = createContext();
 
 export function TimerProvider({ children, minuteGoal = 10 }) {
-    const [minutes, setMinutes] = useState(0)
+    const [minutes, setMinutes] = useState(() => {
+        const storedMinutes = localStorage.getItem('timer');
+        return storedMinutes ? JSON.parse(storedMinutes) : 0;
+    })
 
     useEffect(() => {
     const interval = setInterval(() => {
