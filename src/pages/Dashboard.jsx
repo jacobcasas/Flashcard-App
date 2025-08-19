@@ -3,11 +3,12 @@ import Button from '../components/Button/Button';
 import DeckCard from '../components/DeckCard/DeckCard';
 import SetUser from './SetUser';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import TestResult from '../components/TestResult/TestResult';
 import TrashIcon from "../assets/trash-can.svg";
 import LightIcon from "../assets/light_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg";
 import DarkIcon from "../assets/dark_mode_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg";
+import { TimerContext } from '../components/TimeContext';
 
 
 function Dashboard () {
@@ -32,11 +33,8 @@ function Dashboard () {
         const storedResults = localStorage.getItem("results");
         return storedResults ? JSON.parse(storedResults) : [];
     })
-    const [minutes, setMinutes] = useState(() => {
-        const storedTimer = localStorage.getItem("timer");
-        return storedTimer ? JSON.parse(storedTimer) : 0;
-    });
-    const [minuteGoal, setMinuteGoal] = useState(10);
+    
+    const { minutes, minuteGoal } = useContext(TimerContext);
     const [theme, setTheme] = useState("");
 
     const topPercentage = results.length > 0 
@@ -91,19 +89,7 @@ function Dashboard () {
         }
     }, [isScrollable]);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setMinutes(prev => {
-                if (prev + 1 >= minuteGoal) {
-                    clearInterval(interval);
-                    return minuteGoal;
-                }
-                return prev + 1;
-            });
-        }, 60_000);
 
-        return () => clearInterval(interval);
-    }, [minuteGoal]);
 
     useEffect(() => {
         localStorage.setItem("timer", minutes);
