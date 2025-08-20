@@ -32,7 +32,9 @@ function Dashboard () {
     const [results, setResults] = useState(() => {
         const storedResults = localStorage.getItem("results");
         return storedResults ? JSON.parse(storedResults) : [];
-    })
+    });
+
+    const [weeklyProgress, setWeeklyProgress] = useState({});
     
     const { minutes, minuteGoal } = useContext(TimerContext);
     const [theme, setTheme] = useState("");
@@ -43,7 +45,12 @@ function Dashboard () {
 
     const toggleTheme = () => {
         setTheme(prev => (prev === "light" ? "dark" : "light"));
-    }
+    };
+
+    useEffect(() => {
+        const storedProgress = JSON.parse(localStorage.getItem("progress") || "{}");
+        setWeeklyProgress(storedProgress);
+    }, []);
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -211,18 +218,24 @@ function Dashboard () {
 
                     <div className="tracker-and-msg">
                         <div className='weekly-tracker-container'>
-                        {dayAndMarker.map((item, index) => {
-                            const isToday = item.id === today;
-                            const isComplete = minutes === minuteGoal;
-                            let streakLevel;
-                            if (isToday && isComplete) {
-                                streakLevel = "2";
-                            } else if (item.id < today && isComplete) {
-                                streakLevel = "1";
-                            } else streakLevel = "0";
+                        {dayAndMarker.map( item => {
+                            const todayId = new Date().getDay();
+                            const date = new Date();
 
+                            const dayDiff = item.id - todayId;
+                            const dayDate = new Date();
+                            dayDate.setDate(date.getDate() + dayDiff);
+                            const dayKey = dayDate.toISOString().split('T')[0];
+
+                            const isToday = item.id === todayId;
+                            const isComplete = weeklyProgress[dayKey] || false;
+
+                            let streakLevel;
+                            if (isToday && isComplete) streakLevel = 2;
+                            else if (isComplete) streakLevel = 1;
+                            else streakLevel = 1;
                             return (
-                                <div key={index} className="day-and-marker">
+                                <div key={item.id} className="day-and-marker">
                                     <p>{item.day}</p>
                                     <div className={`marker mkr-${streakLevel} ${isToday ? 'today' : ''}`}></div>
                                 </div>
