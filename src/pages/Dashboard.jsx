@@ -233,7 +233,7 @@ function Dashboard () {
                             let streakLevel;
                             if (isToday && isComplete) streakLevel = 2;
                             else if (isComplete) streakLevel = 1;
-                            else streakLevel = 1;
+                            else streakLevel = 0;
                             return (
                                 <div key={item.id} className="day-and-marker">
                                     <p>{item.day}</p>
