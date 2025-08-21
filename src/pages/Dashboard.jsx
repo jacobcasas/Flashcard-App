@@ -142,23 +142,6 @@ function Dashboard () {
     ];
 
 //#region functions
-    const resetAllGoals = () => {
-        localStorage.removeItem("timer");
-        localStorage.removeItem("results");
-        
-        const storedDecks = JSON.parse(localStorage.getItem("decks") || "[]");
-
-        const resetDecks = storedDecks.map(deck => ({
-            ...deck,
-            cards: deck.cards.map(card => ({
-                ...card,
-                masteredOn: null
-            }))
-        }))
-
-        localStorage.setItem("decks", JSON.stringify(resetDecks));
-    }
-
     const handleDeckSelection = (deck) => {
         setSelectedDeck(deck);
         setIsScrollable(false);
