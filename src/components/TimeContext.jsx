@@ -81,7 +81,7 @@ export function TimerProvider({ children }) {
 
 
     return (
-        <TimerContext.Provider value={{ minutes, setMinutes, progress, setProgress, results, setResults, resetAllGoals }}>
+        <TimerContext.Provider value={{ minutes, setMinutes, minuteGoal, progress, setProgress,  results, setResults, resetAllGoals }}>
             {children}
         </TimerContext.Provider>
     )
